@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Clean Energy Prioritiser</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <!-- <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js'></script> -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+  <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' rel='stylesheet' />
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
+
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <!-- <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script> -->
+  <script src='src/js/mapbox-gl-draw.js'></script>
+  <script src='src/js/busyLoad.js'></script>
+
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.18.0/mapbox-gl-draw.css' type='text/css'/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+  <!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" **defer**></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link rel='stylesheet' href='src/css/geocoder.css' type='text/css' />
+  <script src='src/js/mapbox-gl-draw-rectangle-mode.min.js'></script>
+
+  <link href="src/css/busyLoad.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="app/app.css" rel="stylesheet">
+</head>
+<body>
+
+
+
+  <div id="modal-carbon" class="modal">
+    <div class="modal-content">
+      <h4>Title of the dataset </h4> <br>
+      <b>ABSTRACT</b>
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+      <br><b>DATA PROVIDER</b>
+      <p>European Commission - Joint Research Centre</p>
+      <br><b>TECHNICAL BACKGROUND</b>
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+      <br><b>RELATED SDGs </b>
+      <p>GOAL...</p>
+      </p>
+    </div>
+  </div>
+
+  <div id="modal-water" class="modal">
+    <div class="modal-content">
+        <h4>Title of the dataset </h4> <br>
+        <b>ABSTRACT</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL...</p>
+        </p>
+      </div>
+    </div>
+
+  
+  <div id="modal-natural" class="modal">
+    <div class="modal-content">
+        <h4>Title of the dataset </h4> <br>
+        <b>ABSTRACT</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL...</p>
+        </p>
+      </div>
+    </div>
+  <div id="modal-forest" class="modal">
+    <div class="modal-content">
+        <h4>Title of the dataset </h4> <br>
+        <b>ABSTRACT</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL...</p>
+        </p>
+      </div>
+    </div>
+  <div id="modal-mammals" class="modal">
+    <div class="modal-content">
+        <h4>Title of the dataset </h4> <br>
+        <b>ABSTRACT</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL...</p>
+        </p>
+      </div>
+    </div>
+  <div id="modal-th_mammals" class="modal">
+    <div class="modal-content">
+        <h4>Title of the dataset </h4> <br>
+        <b>ABSTRACT</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL...</p>
+        </p>
+      </div>
+    </div>
+  <div id="modal-amphibians" class="modal">
+    <div class="modal-content">
+        <h4>Title of the dataset </h4> <br>
+        <b>ABSTRACT</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL...</p>
+        </p>
+      </div>
+    </div>
+  <div id="modal-foodsec" class="modal">
+    <div class="modal-content">
+        <h4>Title of the dataset </h4> <br>
+        <b>ABSTRACT</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL...</p>
+        </p>
+      </div>
+    </div>
+  <div id="modal-birds" class="modal">
+    <div class="modal-content">
+        <h4>Title of the dataset </h4> <br>
+        <b>ABSTRACT</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil ut, perferendis cupiditate fuga blanditiis numquam architecto? Sapiente perspiciatis ad minus atque quam explicabo, laborum deserunt earum similique tempora dignissimos eos!</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL...</p>
+        </p>
+      </div>
+    </div>
+  <div id="modal-education" class="modal">
+    <div class="modal-content">
+        <h4>Educational facilities</h4> <br>
+        <b>ABSTRACT</b>
+        <p>Education is widely recognized as one of the most essential components for poverty reduction. Education infrastructure in Sub-Saharan Africa is one of the social sectors with less access to electricity, only 35.1% of Sub-Saharan African primary schools have access to electricity and half of secondary schools in sub-Saharan Africa do not have power.  Irrespective of this evidence, there is a lack of systematic, recently updated data on which schools are with or without access to electricity and hence a limited awareness of the electrification status. Consequently, it can be difficult to prioritise the provision of reliable electricity when planning and implementing energy investments to the education sector in rural areas
+          The dataset collects geolocation of schools (primary and secondary) with the current situation of access to electricity with a binary description (With electricity access WEA, Non electricity access NEA).</p>
+        <br><b>DATA PROVIDER</b>
+        <p>European Commission - Joint Research Centre
+          UNICEF</p>
+        <br><b>TECHNICAL BACKGROUND</b>
+        <p>This datasets are obtained using a series of proxies, combining satellite data, use deep-learning methods, national statistical data, and several open-source data, as further described in the upcoming publication (2023)</p>
+        <br><b>RELATED SDGs </b>
+        <p>GOAL 7, GOAL 4</p>
+        <br>
+        <iframe src="https://lucageo.github.io/Clean-Energy-Prioritiser/single_maps/education.html" width="100%" height="70%" style="border:none;"> </iframe>
+        <br>
+        <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=africa_platform:benin_schools_4326&outputformat=SHAPE-ZIP" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+        </p>
+      </div>
+    </div>
+    <div id="modal-edu_no_e" class="modal">
+      <div class="modal-content">
+          <h4>Educational facilities without electicity</h4> <br>
+          <b>ABSTRACT</b>
+          <p>Education is widely recognized as one of the most essential components for poverty reduction. Education infrastructure in Sub-Saharan Africa is one of the social sectors with less access to electricity, only 35.1% of Sub-Saharan African primary schools have access to electricity and half of secondary schools in sub-Saharan Africa do not have power.  Irrespective of this evidence, there is a lack of systematic, recently updated data on which schools are with or without access to electricity and hence a limited awareness of the electrification status. Consequently, it can be difficult to prioritise the provision of reliable electricity when planning and implementing energy investments to the education sector in rural areas
+            The dataset collects geolocation of schools (primary and secondary) with the current situation of access to electricity with a binary description (With electricity access WEA, Non electricity access NEA).</p>
+          <br><b>DATA PROVIDER</b>
+          <p>European Commission - Joint Research Centre
+            UNICEF</p>
+          <br><b>TECHNICAL BACKGROUND</b>
+          <p>This datasets are obtained using a series of proxies, combining satellite data, use deep-learning methods, national statistical data, and several open-source data, as further described in the upcoming publication (2023)</p>
+          <br><b>RELATED SDGs </b>
+          <p>GOAL 7, GOAL 4</p>
+          <br>
+          <iframe src="https://lucageo.github.io/Clean-Energy-Prioritiser/single_maps/edu_no_e.html" width="100%" height="70%" style="border:none;"> </iframe>
+          <br>
+          <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=africa_platform:benin_schools_no_e_4326&outputformat=SHAPE-ZIP" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+          </p>
+        </div>
+      </div>
+      <div id="modal-access" class="modal">
+        <div class="modal-content">
+            <h4>Travel time to major cities</h4> <br>
+            <b>ABSTRACT</b>
+            <p>The world is shrinking. Cheap flights, large scale commercial shipping and expanding road networks all mean that we are better connected to everywhere else than ever before. Accessibility - whether it is to markets, schools, hospitals or water - is a precondition for the satisfaction of almost any economic need. The new map of Travel Time to Major Cities -developed by the European Commission and the World Bank- captures this connectivity and the concentration of economic activity. It also highlights that there is little wilderness left. The map shows the travel time (in hours/days) to major cities (i.e. cities of 50,000 or more people in year 2000) using land (road/off road) or water (navigable river, lake and ocean) based travel.</p>
+            <br><b>DATA PROVIDER</b>
+            <p>European Commission - Joint Research Centre</p>
+            <br><b>TECHNICAL BACKGROUND</b>
+            <p>This map was made for the World Bank's World Development Report 2009 "Reshaping Economic Geography". Accessibility is defined as the travel time to a location of interest using land (road/off road) or water (navigable river, lake and ocean) based travel. Each pixel value on the map represents the travel time to the nearest city of 50,000 or more people in year 2000. For a description of the model and data sources used, visit https://forobs.jrc.ec.europa.eu/products/gam/description.php</p>
+            <br><b>RELATED SDGs </b>
+            <p>GOAL 7, GOAL 11, GOAL 13</p>
+            <br>
+            <iframe src="https://lucageo.github.io/Clean-Energy-Prioritiser/single_maps/access.html" width="100%" height="70%" style="border:none;"> </iframe>
+            <br>
+            <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wcs?service=WCS&version=2.0.1&request=GetCoverage&CoverageId=africa_platform:travel_time_sec_africa&format=image/tiff" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+            </p>
+          </div>
+        </div>
+        <div id="modal-distance" class="modal">
+          <div class="modal-content">
+              <h4>Distance from Grid</h4> <br>
+              <b>ABSTRACT</b>
+              <p>The world is shrinking. Cheap flights, large scale commercial shipping and expanding road networks all mean that we are better connected to everywhere else than ever before. Accessibility - whether it is to markets, schools, hospitals or water - is a precondition for the satisfaction of almost any economic need. The new map of Travel Time to Major Cities -developed by the European Commission and the World Bank- captures this connectivity and the concentration of economic activity. It also highlights that there is little wilderness left. The map shows the travel time (in hours/days) to major cities (i.e. cities of 50,000 or more people in year 2000) using land (road/off road) or water (navigable river, lake and ocean) based travel.</p>
+              <br><b>DATA PROVIDER</b>
+              <p>European Commission - Joint Research Centre</p>
+              <br><b>TECHNICAL BACKGROUND</b>
+              <p>This map was made for the World Bank's World Development Report 2009 "Reshaping Economic Geography". Accessibility is defined as the travel time to a location of interest using land (road/off road) or water (navigable river, lake and ocean) based travel. Each pixel value on the map represents the travel time to the nearest city of 50,000 or more people in year 2000. For a description of the model and data sources used, visit https://forobs.jrc.ec.europa.eu/products/gam/description.php</p>
+              <br><b>RELATED SDGs </b>
+              <p>GOAL 7, GOAL 11, GOAL 13</p>
+              <br>
+              <iframe src="https://lucageo.github.io/Clean-Energy-Prioritiser/single_maps/distance.html" width="100%" height="70%" style="border:none;"> </iframe>
+              <br>
+              <a href="https://geospatial.jrc.ec.europa.eu/geoserver/hotspots/wcs?service=WCS&version=2.0.1&request=GetCoverage&CoverageId=hotspots%3Adistance_africa_05092022&format=image/tiff" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+              </p>
+            </div>
+          </div>
+          <div id="modal-powerplant" class="modal">
+            <div class="modal-content">
+                <h4>Power plants</h4> <br>
+                <b>ABSTRACT</b>
+                <p>This dataset shows the African power plants. It includes thermal plants (coal, gas, oil, nuclear, biomass, waste, geothermal) and renewables (hydro, wind, solar). Each power plant is geolocated and entries contain information on plant capacity and generation type.</p>
+                <br><b>DATA PROVIDER</b>
+                <p>European Commission - Joint Research Centre</p>
+                <br><b>TECHNICAL BACKGROUND</b>
+                <p>This list of power plants is entirely based on open sources datasets: ECOWREX (ECOWREX.org), WRI Global Power Plant Database (https://www.wri.org/publication/global-power-plant-database), ENERGYDATA.INFO open data platform (https://energydata.info/en/dataset/africa-power-stations-2012.), Harvard. Africa power plants (http://worldmap.harvard.edu/data/geonode:africa_power_plants_gd4) and S&P Global Platts (https://www.platts.com/products/world-electric-power-plants-database). The datasets are available per region at: http://doi.org/10.5281/zenodo.2620189 (West Africa), https://zenodo.org/record/4030905#.X2xIsHtS-Mo (Southern Africa), https://zenodo.org/record/3839756#.X3WPN3tS-Mo (North, Eastern and Central Africa)</p>
+                <br><b>RELATED SDGs </b>
+                <p>GOAL 7, GOAL 9</p>
+                <br>
+                <iframe src="https://lucageo.github.io/Clean-Energy-Prioritiser/single_maps/powerplants.html" width="100%" height="70%" style="border:none;"> </iframe>
+                <br>
+                <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=africa_platform%3APower_plants_2019&outputformat=SHAPE-ZIP" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+                </p>
+              </div>
+            </div>
+            <div id="modal-solar" class="modal">
+              <div class="modal-content">
+                  <h4>Longterm yearly average of global horizontal irradiation</h4> <br>
+                  <b>ABSTRACT</b>
+                  <p>This dataset shows the Longterm yearly average of global horizontal irradiation (GHI) in kWh/m2, covering the period 1999-2018</p>
+                  <br><b>DATA PROVIDER</b>
+                  <p>Solargis, The World Bank - Global Solar Atlas</p>
+                  <br><b>TECHNICAL BACKGROUND</b>
+                  <p>This data layer represents an output from the Solargis global solar model. It has
+                    been delivered for the Global Solar Atlas (https://globalsolaratlas.info/), online
+                    platform funded by the Energy Sector Management Assistance Program
+                    (ESMAP), a multi-donor trust fund administered by The World Bank, under a
+                    global initiative on Renewable Energy Resource Mapping.</p>
+                  <br><b>RELATED SDGs </b>
+                  <p>GOAL 7, GOAL 9</p>
+                  <br>
+                  <iframe src="https://lucageo.github.io/Clean-Energy-Prioritiser/single_maps/solar.html" width="100%" height="70%" style="border:none;"> </iframe>
+                  <br>
+                  <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=africa_platform%3APower_plants_2019&outputformat=SHAPE-ZIP" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+                  </p>
+                </div>
+              </div>
+              <div id="modal-wind" class="modal">
+                <div class="modal-content">
+                    <h4>Wind Mean Power Density</h4> <br>
+                    <b>ABSTRACT</b>
+                    <p>The mean wind power density is a measure of the wind resource. Higher mean wind power densities indicate better wind resources.</p>
+                    <br><b>DATA PROVIDER</b>
+                    <p>Global Wind Atlas</p>
+                    <br><b>TECHNICAL BACKGROUND</b>
+                    <p> To run the modeling over the very large area, a system of software and servers called the Global Wind Atlas Frogfoot was developed. This method is very similar to what is used in the WAsP software. For example, the flow modeling for orography, roughness and roughness change is the same in the WAsP software. However, the GWA calculation differs in a number of ways in order to allow a very large area to be covered. For example, local wind climate calculations are based on more than a single generalized wind climate, and terrain data is input as raster maps rather than vector maps.</p>
+                    <br><b>RELATED SDGs </b>
+                    <p>GOAL 7, GOAL 9</p>
+                    <br>
+                    <iframe src="https://lucageo.github.io/Clean-Energy-Prioritiser/single_maps/wind.html" width="100%" height="70%" style="border:none;"> </iframe>
+                    <br>
+                    <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wcs?service=WCS&version=2.0.1&request=GetCoverage&CoverageId=africa_platform%3Awind_benin&format=image/tiff" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+                    </p>
+                  </div>
+                </div>
+
+<div id='map' class='map'> </div>
+<div id='main_tools' class='main_tools'>
+  <div class="row">
+    <div class="col s12 m6 l3 icon_custom search_icon"><a class=" tooltipped" data-position="bottom" data-tooltip="Search for places"><span class="material-icons">search</span></div>
+    <div class="col s12 m6 l3 icon_custom layers_icon"><a class=" tooltipped" data-position="bottom" data-tooltip="Export map" id="downloadLink" href="" download="map.png"> <span class="material-icons">get_app</span></a></div>
+      
+    <div class="col s12 m6 l3 icon_custom legend_icon"><a class=" tooltipped" data-position="bottom" data-tooltip="Legend"><span class="material-icons">format_list_bulleted</span></div>
+    <div class="col s12 m6 l3 icon_custom zoom_icon"><a class=" tooltipped" data-position="bottom" data-tooltip="Set global view"><span class="material-icons">zoom_out_map</span></a></div>
+  </div>
+</div>
+        
+
+  <div id='geocoder' class='geocoder'></div>
+  <div id='country_var_dropdown' >
+ 
+    <fieldset>
+      <select id='layer_country' name='layer_country'>
+      <option value='iso3'>Select a country variable</option>
+      <option value='adm0_code'>Total Carbon</option>
+      <option value='shape_leng'>Natural Areas</option>
+      <option value='adm0_code'>Water Presence</option>
+      <option value='shape_leng'>Intact Forest</option>
+      <option value='adm0_code'>Mammals Richness</option>
+      <option value='shape_leng'>Amphibians Richness</option>
+      <option value='shape_leng'>Birds Richness</option>
+      <option value='shape_leng'>Endemic Threatened Mammals Richness</option>
+      <option value='shape_leng'>Endemic Threatened Anphibians Richness</option>
+      <option value='iso3'>Overall Score</option>
+      </select>
+      </fieldset>
+  </div>
+
+  <div id='custom_map_tools'></div>
+
+
+
+
+  
+<!-- ------------------ main sidebar where country scores and tool are displayed ------------------------------ -->
+
+      
+  <div class='sidebar' data-html2canvas-ignore="true">
+      <div id='country_name'></div>
+      <div id = 'listing'>
+      <div id = 'listingname'>
+      </div>
+     </div>
+
+
+     <ul class="collapsible manual_scores">
+      <li class='active'>
+        <div class="collapsible-header scoring_section"><i class="material-icons">tune</i> Set your priorities</div>
+        <div class="collapsible-body topic_body_main"><span>
+          <div class='top_dropdown'>
+            <div class='top_dropdown_inner'>
+            <div class='map-overlay-inner'>
+      <div class='topic_section_supply'>
+        <ul class="collapsible main_topic_section">
+            <li class='disabled'>
+                <div class="collapsible-header topic_section"><i class="material-icons">blur_on</i> Market supply </div>
+                <div class="collapsible-body topic_body"><span>
+            
+                  <form action="#">
+                    <div class="input-field col s12">
+                      <a class='btn modal-trigger' href='#modal-distance'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-distance">clear</span> <label>Closest to the grid</label><br>    
+                      <p class="range-field range-field-distance"><input type="range" id="distance_slider" value ="0" min="1" max="10" /> <output id="distance_value" name="distance_value">1<span></span></output></p>
+                    </div>
+                  </form>
+                  
+                  <form action="#">
+                    <div class="input-field col s12">
+                      <a class='btn modal-trigger' href='#modal-distance_inv'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-distance_inv">clear</span> <label>Farthest from the grid</label><br>    
+                      <p class="range-field range-field-distance_inv"><input type="range" id="distance_inv_slider" value ="0" min="1" max="10" /> <output id="distance_inv_value" name="distance_inv_value">1<span></span></output></p>
+                    </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-powerplant'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-powerplant">clear</span> <label>Power plants</label><br>    
+                  <p class="range-field range-field-powerplant"><input type="range" id="powerplant_slider" value ="0" min="1" max="10" /> <output id="powerplant_value" name="powerplant_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-solar'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-solar">clear</span> <label>Solar potential</label><br>    
+                  <p class="range-field range-field-solar"><input type="range" id="solar_slider" value ="0" min="1" max="10" /> <output id="solar_value" name="solar_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-wind'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-wind">clear</span> <label>Wind potential</label><br>    
+                  <p class="range-field range-field-wind"><input type="range" id="wind_slider" value ="0" min="1" max="10" /> <output id="wind_value" name="wind_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-hydro'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-hydro">clear</span> <label>Hydropower potential</label><br>    
+                  <p class="range-field range-field-hydro"><input type="range" id="hydro_slider" value ="0" min="1" max="10" /> <output id="hydro_value" name="hydro_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-access'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-access">clear</span> <label>Most accessible Areas</label><br>    
+                  <p class="range-field range-field-access"><input type="range" id="access_slider" value ="0" min="1" max="10" /> <output id="access_value" name="access_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                    <div class="input-field col s12">
+                    <a class='btn modal-trigger' href='#modal-access_inv'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-access_inv">clear</span> <label>Least accessible Areas</label><br>    
+                    <p class="range-field range-field-access_inv"><input type="range" id="access_inv_slider" value ="0" min="1" max="10" /> <output id="access_inv_value" name="access_inv_value">1<span></span></output></p>
+                    </div>
+                    </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-grid'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-grid">clear</span> <label>Electricity Grid</label><br>    
+                  <p class="range-field range-field-grid"><input type="range" id="grid_slider" value ="0" min="1" max="10" /> <output id="grid_value" name="grid_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                </span></div>
+                  </li>
+                  </ul>
+          </div>
+          <div class='topic_section_demand'>
+              <ul class="collapsible main_topic_section">
+                  <li class='disabled'>
+                      <div class="collapsible-header topic_section"><i class="material-icons">blur_on</i> Market demand </div>
+                      <div class="collapsible-body topic_body"><span>
+             
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-natural'><span class='material-icons'>info</span></a> <span class="material-icons delvarico delvarico-industrial">clear</span> <label>Industrial Areas</label><br>    
+                  <p class="range-field range-field-industrial"><input type="range" id="industrial_slider" value ="0" min="1" max="10" /> <output id="industrial_value" name="industrial_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-forest'><span class='material-icons'>info</span></a> <span class="material-icons delvarico delvarico-popdens">clear</span> <label>Population</label><br>    
+                  <p class="range-field range-field-popdens"><input type="range" id="popdens_slider" value ="0" min="1" max="10" /> <output id="popdens_value" name="popdens_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-mammals'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-health">clear</span>  <label>Health centers</label><br>    
+                  <p class="range-field range-field-health"><input type="range" id="health_slider" value ="0" min="1" max="10" /> <output id="health_value" name="health_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                    <div class="input-field col s12">
+                    <a class='btn modal-trigger' href='#modal-education'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-education">clear</span> <label>Educational facilities</label><br>    
+                    <p class="range-field range-field-education"><input type="range" id="education_slider" value ="0" min="1" max="10" /> <output id="education_value" name="education_value">1<span></span></output></p>
+                    </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-edu_no_e'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-edu_no_e">clear</span> <label>Educational facilities without electicity</label><br>    
+                  <p class="range-field range-field-edu_no_e"><input type="range" id="edu_no_e_slider" value ="0" min="1" max="10" /> <output id="edu_no_e_value" name="edu_no_e_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-irrigation'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-irrigation">clear</span> <label>Area equipped for irrigation</label><br>    
+                  <p class="range-field range-field-irrigation"><input type="range" id="irrigation_slider" value ="0" min="1" max="10" /> <output id="irrigation_value" name="irrigation_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-groundw'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-groundw">clear</span> <label>Groundwater Irrigation</label><br>    
+                  <p class="range-field range-field-groundw"><input type="range" id="groundw_slider" value ="0" min="1" max="10" /> <output id="groundw_value" name="groundw_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-lives'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-lives">clear</span> <label>Livestock</label><br>    
+                  <p class="range-field range-field-lives"><input type="range" id="lives_slider" value ="0" min="1" max="10" /> <output id="lives_value" name="lives_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                </span></div>
+                </li>
+              </ul>
+          </div>
+          <div class='topic_section_env'>
+              <ul class="collapsible main_topic_section">
+                  <li class='disabled'>
+                      <div class="collapsible-header topic_section"><i class="material-icons">blur_on</i>Environmental and Climate factors​</div>
+                      <div class="collapsible-body topic_body"><span>
+              
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-th_mammals'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-elevation">clear</span> <label>Elevation</label><br>    
+                  <p class="range-field range-field-elevation"><input type="range" id="elevation_slider" value ="0" min="1" max="10" /> <output id="elevation_value" name="elevation_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-amphibians'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-slope">clear</span> <label>Slope</label><br>    
+                  <p class="range-field range-field-slope"><input type="range" id="slope_slider" value ="0" min="1" max="10" /> <output id="slope_value" name="slope_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-natarea'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-natarea">clear</span> <label>Natural Areas</label><br>    
+                  <p class="range-field range-field-natarea"><input type="range" id="natarea_slider" value ="0" min="1" max="10" /> <output id="natarea_value" name="natarea_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-intactf'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-intactf">clear</span> <label>Intact Forest</label><br>    
+                  <p class="range-field range-field-intactf"><input type="range" id="intactf_slider" value ="0" min="1" max="10" /> <output id="intactf_value" name="intactf_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-pca'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-pca">clear</span> <label>Protected and Conserved Areas</label><br>    
+                  <p class="range-field range-field-pca"><input type="range" id="pca_slider" value ="0" min="1" max="10" /> <output id="pca_value" name="pca_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-tempano'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-tempano">clear</span> <label>Temperature Anomalies</label><br>    
+                  <p class="range-field range-field-tempano"><input type="range" id="tempano_slider" value ="0" min="1" max="10" /> <output id="tempano_value" name="tempano_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-drought'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-drought">clear</span> <label>Drought Risk</label><br>    
+                  <p class="range-field range-field-drought"><input type="range" id="drought_slider" value ="0" min="1" max="10" /> <output id="drought_value" name="drought_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                  <form action="#">
+                  <div class="input-field col s12">
+                  <a class='btn modal-trigger' href='#modal-waterp'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-waterp">clear</span> <label>Water presence</label><br>    
+                  <p class="range-field range-field-waterp"><input type="range" id="waterp_slider" value ="0" min="1" max="10" /> <output id="waterp_value" name="waterp_value">1<span></span></output></p>
+                  </div>
+                  </form>
+                </span></div>
+                </li>
+              </ul>
+          </div>
+          <div class='topic_section_socio'>
+              <ul class="collapsible main_topic_section">
+                  <li class='disabled'>
+                      <div class="collapsible-header topic_section"><i class="material-icons">blur_on</i>Socio-political aspects​</div>
+                      <div class="collapsible-body topic_body"><span>
+                  <form action="#">
+                    <div class="input-field col s12">
+                      <a class='btn modal-trigger' href='#modal-foodsec'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-foodsec">clear</span>  <label>Food Security​</label><br>    
+                      <p class="range-field range-field-foodsec"><input type="range" id="foodsec_th_slider" value ="0" min="1" max="10" /> <output id="foodsec_value" name="foodsec_value">1<span></span></output></p>
+                    </div>
+                  </form>
+                  <form action="#">
+                    <div class="input-field col s12">
+                      <a class='btn modal-trigger' href='#modal-conflict'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-conflict">clear</span> <label>Armed conflict</label><br>    
+                      <p class="range-field range-field-conflict"><input type="range" id="conflict_slider" value ="0" min="1" max="10" /> <output id="conflict_value" name="conflict_value">1<span></span></output></p>
+                    </div>
+                  </form>
+                  <form action="#">
+                    <div class="input-field col s12">
+                      <a class='btn modal-trigger' href='#modal-refugee'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-refugee">clear</span> <label>Refugee camps</label><br>    
+                      <p class="range-field range-field-refugee"><input type="range" id="refugee_slider" value ="0" min="1" max="10" /> <output id="refugee_value" name="refugee_value">1<span></span></output></p>
+                    </div>
+                  </form>   
+                </span></div>
+                </li>
+              </ul>
+          </div>
+          <form action="#">
+          <div class="input-field col s12" >
+          <span class="material-icons delvarico delvarico-all">clear</span> <label id = "all-var">Remove all avariables </label>
+          </div>
+          </form> 
+            <form action="#">
+              <p>
+                <label>
+                  <input type="checkbox" class="checkbox_check" />
+                  <span>No-Go Areas</span>
+                </label>
+              </p>
+            </form>
+        </span></div>
+        <div class='topic_section_submit'>
+              <button id="submit">Submit</button> 
+            </div>
+        
+      </li>
+    </ul>
+          
+
+  </div>
+
+
+  <div class='calculation-box' data-html2canvas-ignore="true">
+    <ul class="collapsible popout">
+      <li>
+        <div class="collapsible-header"><i class="material-icons">select_all</i>Area selected</div>
+        <div class="collapsible-body"><span><div id='polygon_out_main_area'></div></span></div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons">bar_chart</i>Resources</div>
+        <div class="collapsible-body"><span><div id='polygon_out_main'></div></span></div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons">eco</i>What makes this area special </div>
+        <div class="collapsible-body"><span><div id='polygon_out_main_2'></div></span></div>
+      </li>
+    </ul>
+
+    <!-- <div class='calculation-box_title_2'></div>
+    <div id='polygon_out_main_2'></div>
+    <div class='calculation-box_title'></div>
+    <div id='polygon_out_main'></div> -->
+
+ </div>
+
+
+
+
+ <div id="image"></div>
+
+ <div id="point_scores"></div>
+<div id="mainpopup"><div id="closepopup" class="collapsed"><span class="material-icons closepopup">dehaze</span></div><div id="popup" class="collapsed">Hover features on the map to get results in this window.</div></div> 
+<div class="legend"> 
+  </div>
+  <script src='app/app.js'></script>
+
+</body>
+</html>
