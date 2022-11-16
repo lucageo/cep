@@ -79,6 +79,24 @@
             </p>
           </div>
         </div>
+        <div id="modal-access_inv" class="modal">
+          <div class="modal-content">
+              <h4>Travel time to major cities</h4> <br>
+              <b>ABSTRACT</b>
+              <p>The world is shrinking. Cheap flights, large scale commercial shipping and expanding road networks all mean that we are better connected to everywhere else than ever before. Accessibility - whether it is to markets, schools, hospitals or water - is a precondition for the satisfaction of almost any economic need. The new map of Travel Time to Major Cities -developed by the European Commission and the World Bank- captures this connectivity and the concentration of economic activity. It also highlights that there is little wilderness left. The map shows the travel time (in hours/days) to major cities (i.e. cities of 50,000 or more people in year 2000) using land (road/off road) or water (navigable river, lake and ocean) based travel.</p>
+              <br><b>DATA PROVIDER</b>
+              <p>European Commission - Joint Research Centre</p>
+              <br><b>TECHNICAL BACKGROUND</b>
+              <p>This map was made for the World Bank's World Development Report 2009 "Reshaping Economic Geography". Accessibility is defined as the travel time to a location of interest using land (road/off road) or water (navigable river, lake and ocean) based travel. Each pixel value on the map represents the travel time to the nearest city of 50,000 or more people in year 2000. For a description of the model and data sources used, visit https://forobs.jrc.ec.europa.eu/products/gam/description.php</p>
+              <br><b>RELATED SDGs </b>
+              <p>GOAL 7, GOAL 11, GOAL 13</p>
+              <br>
+              <iframe src="https://lucageo.github.io/cep/single_maps/access.html" width="100%" height="70%" style="border:none;"> </iframe>
+              <br>
+              <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wcs?service=WCS&version=2.0.1&request=GetCoverage&CoverageId=africa_platform:travel_time_sec_africa&format=image/tiff" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+              </p>
+            </div>
+          </div>
         <div id="modal-distance" class="modal">
           <div class="modal-content">
               <h4>Distance from Grid</h4> <br>
@@ -97,6 +115,23 @@
               </p>
             </div>
           </div>
+          <div id="modal-distance_inv" class="modal">
+            <div class="modal-content">
+                <h4>Distance from Grid</h4> <br>
+                <b>ABSTRACT</b>
+                <p>The world is shrinking. Cheap flights, large scale commercial shipping and expanding road networks all mean that we are better connected to everywhere else than ever before. Accessibility - whether it is to markets, schools, hospitals or water - is a precondition for the satisfaction of almost any economic need. The new map of Travel Time to Major Cities -developed by the European Commission and the World Bank- captures this connectivity and the concentration of economic activity. It also highlights that there is little wilderness left. The map shows the travel time (in hours/days) to major cities (i.e. cities of 50,000 or more people in year 2000) using land (road/off road) or water (navigable river, lake and ocean) based travel.</p>
+                <br><b>DATA PROVIDER</b>
+                <p>European Commission - Joint Research Centre</p>
+                <br><b>TECHNICAL BACKGROUND</b>
+                <p>This map was made for the World Bank's World Development Report 2009 "Reshaping Economic Geography". Accessibility is defined as the travel time to a location of interest using land (road/off road) or water (navigable river, lake and ocean) based travel. Each pixel value on the map represents the travel time to the nearest city of 50,000 or more people in year 2000. For a description of the model and data sources used, visit https://forobs.jrc.ec.europa.eu/products/gam/description.php</p>
+                <br><b>RELATED SDGs </b>
+                <p>GOAL 7, GOAL 11, GOAL 13</p>
+                <br>
+                <iframe src="https://lucageo.github.io/cep/single_maps/distance.html" width="100%" height="70%" style="border:none;"> </iframe>
+                <br>
+                </p>
+              </div>
+            </div>
           <div id="modal-powerplant" class="modal">
             <div class="modal-content">
                 <h4>Power plants</h4> <br>
@@ -387,24 +422,43 @@
                                   </p>
                                   </div>
                                   </div>
-                                  <div id="modal-industrial" class="modal">
+                                  <div id="modal-grid" class="modal">
                                     <div class="modal-content">
-                                    <h4>Industrial Areas</h4> <br>
+                                    <h4>Grid</h4> <br>
                                     <b>ABSTRACT</b>
-                                    <p>The data reports about the built-up surface allocated to dominant non-residential (NRES) uses expressed as number of square meters.</p>
+                                    <p>In Sub-Saharan Africa, medium- and low-voltage data are often non-existent, uncompleted, or unavailable. This is a challenge for practitioners working on the electricity access agenda, power sector resilience or climate change adaptation. This layer presents the spatial distance to the existing and planned electricity grid (high, medium, low voltage level).</p>
                                     <br><b>DATA PROVIDER</b>
                                     <p>EC-JRC</p>
                                     <br><b>TECHNICAL BACKGROUND</b>
-                                    <p> Data are spatial-temporal interpolated from 1975 to 2030 in 5 years intervals.
-                                    For the temporal anchor point of 2018 the data is published at 10m as observed from the S2 image data.</p>
+                                    <p> This layer presents the spatial distance to the existing and planned electricity grid (high, medium, low voltage level) compiled using multiple sources that enumerate elements of the existing transmission and distribution network.
+
+                                      These sources include Open Street Map, the Word Bank datasets, Arderne et al. (2020), the Economic Community of West African States Observatory for Renewable Energy and Energy Efficiency (http://www.ecowrex.org/), and rural electrification agencies and EU delegations in Africa (Burkina Faso, Kenya, Tanzania).</p>
                                     <br><b>RELATED SDGs </b>
-                                    <p>GOAL 7, GOAL 9</p>
-                                    <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wcs?service=WCS&version=2.0.1&request=GetCoverage&CoverageId=africa_platform:industrial_areas&format=image/tiff" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+                                    <p>GOAL 7</p>
+                                    <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=africa_platform:electric_grid&outputformat=SHAPE-ZIP" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
                                     <br>
                                     <br>
                                     </p>
                                     </div>
                                     </div>
+                                    <div id="modal-industrial" class="modal">
+                                      <div class="modal-content">
+                                      <h4>Industrial Areas</h4> <br>
+                                      <b>ABSTRACT</b>
+                                      <p>The data reports about the built-up surface allocated to dominant non-residential (NRES) uses expressed as number of square meters.</p>
+                                      <br><b>DATA PROVIDER</b>
+                                      <p>EC-JRC</p>
+                                      <br><b>TECHNICAL BACKGROUND</b>
+                                      <p> Data are spatial-temporal interpolated from 1975 to 2030 in 5 years intervals.
+                                      For the temporal anchor point of 2018 the data is published at 10m as observed from the S2 image data.</p>
+                                      <br><b>RELATED SDGs </b>
+                                      <p>GOAL 7, GOAL 9</p>
+                                      <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/wcs?service=WCS&version=2.0.1&request=GetCoverage&CoverageId=africa_platform:industrial_areas&format=image/tiff" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+                                      <br>
+                                      <br>
+                                      </p>
+                                      </div>
+                                      </div>
 <div id='map' class='map'> </div>
 <div id='main_tools' class='main_tools'>
   <div class="row">
