@@ -229,30 +229,38 @@ var miolayer = map.getLayer('point');
 
         });
 
+        map.loadImage(
+          'https://lucageo.github.io/cep/img/mask3.png',
+          (err, image) => {
+          // Throw an error if something goes wrong.
+          if (err) throw err;
+           
+          // Add the image to the map style.
+          map.addImage('pattern', image);
+        
 
-  
         map.addLayer({
-          "id": "eez_land",
+          "id": "mask_ben",
           "type": "fill",
           "source": {
               "type": "vector",
-              "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=hotspots:eez_land&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
+              "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=africa_platform:mask_ben&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
               },
-          "source-layer": "eez_land",
+          "source-layer": "mask_ben",
+
+          'paint': {
+          'fill-pattern': 'pattern',
+          'fill-opacity': 0.1,
+          }
     
-          'paint': { 
-            'fill-color': '#FFFFFF',
-            'fill-outline-color': '#ffffff',
-            
-         
-            'fill-opacity': 0,
-    
-    
-                    },
-                    'filter': ["in", "iso3",'BEN'],
-    
-      }, 'waterway-label');
-      
+        });
+      }
+      );
+
+  
+  
+
+
       map.addLayer({
         "id": "benin_bound",
         "type": "fill",
@@ -286,7 +294,7 @@ var miolayer = map.getLayer('point');
       "source-layer": "dopa_geoserver_wdpa_master_202101_o1",
 
       'paint': { 
-        'fill-color': '#ffffff',
+        'fill-color': '#FFF',
        // 'fill-outline-color': 'black',
     
                       'fill-opacity': 0.1,
@@ -1463,10 +1471,10 @@ setTimeout(function(){
         return keys[Math.floor(Math.random() * keys.length)];
       }
       
-      var first = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Computing spatial statistics...', fontWeight: '800', fontSize: '1.5rem', color:'#171d28',background:'#ffffffab'}
-      var second = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Extracting values...', fontSize: '1.5rem', color:'#171d28',background:'#ffffffab'}
-      var third = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Generating map tiles...', fontSize: '1.5rem', color:'#171d28',background:'#ffffffab'}
-      var forth = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Loading results...', fontSize: '1.5rem', color:'#171d28',background:'#ffffffab'}
+      var first = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Computing spatial statistics...', fontSize: '1.5rem', color:'#d0d0d0',background:'#000407cf'}
+      var second = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Extracting values...', fontSize: '1.5rem', color:'#d0d0d0',background:'#000407cf'}
+      var third = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Generating map tiles...', fontSize: '1.5rem', color:'#d0d0d0',background:'#000407cf'}
+      var forth = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Loading results...', fontSize: '1.5rem', color:'#d0d0d0',background:'#000407cf'}
 
       var loading = true;
       if (loading) {
@@ -1803,7 +1811,7 @@ setTimeout(function(){
     },1000);
 
     }else{
-      var filter_wdpa = ["in", 'iso3', 'xxx'];
+      var filter_wdpa = ["in", 'iso3', 'XXX'];
       map.setFilter('dopa_geoserver_wdpa_master_202101_o1', filter_wdpa);
       var filter_points = ["in", 'adm0_code', country_id_fi];
       map.setFilter('grid_points_3', filter_points);
