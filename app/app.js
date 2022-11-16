@@ -1462,11 +1462,29 @@ setTimeout(function(){
         const keys = Object.keys (busy_tabsx);
         return keys[Math.floor(Math.random() * keys.length)];
       }
-      var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "bottom",text: getRandomProperty(busy_tabsx), fontSize: '1rem', color:'#171d28',background:'#ffffffab'}
+      
+      var first = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Computing spatial statistics...', fontWeight: '800', fontSize: '1.5rem', color:'#171d28',background:'#ffffffab'}
+      var second = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Extracting values...', fontSize: '1.5rem', color:'#171d28',background:'#ffffffab'}
+      var third = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Generating map tiles...', fontSize: '1.5rem', color:'#171d28',background:'#ffffffab'}
+      var forth = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Loading results...', fontSize: '1.5rem', color:'#171d28',background:'#ffffffab'}
 
+      var loading = true;
+      if (loading) {
+        setTimeout(() => {
+          $("#map").busyLoad("show", first);
+        }, 0);
+        setTimeout(() => {
+          $("#map").busyLoad("hide").busyLoad("show", second);
+        }, 1200);
+        setTimeout(() => {
+          $("#map").busyLoad("hide").busyLoad("show", third);
+        }, 2800);
+        setTimeout(() => {
+          $("#map").busyLoad("hide").busyLoad("show", forth);
+        }, 3800);
+      }
 
-
-      $("#map").busyLoad("show", gianni);
+      
    
  
   
