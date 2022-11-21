@@ -368,8 +368,8 @@ var miolayer = map.getLayer('point');
         'paint': {
           // make circles larger as the user zooms from z12 to z22
           'circle-radius': {
-            'base': 4,
-            'stops': [[1, 5], [10, 8]]
+            'base': 1,
+            'stops': [[8, 7], [12, 50]]
           },
         'circle-color': '#3bb2d0',
 
@@ -550,7 +550,7 @@ $('#popup').html(
             "<div id='progressbar'><div style='width:"+health_w+"%'></div></div>"+
             "<span class = 'coll_item_title' > Educational facilities</span>"+
             "<div id='progressbar'><div style='width:"+education_w+"%'></div></div>"+
-            "<span class = 'coll_item_title' > Educational facilities without electicity</span>"+
+            "<span class = 'coll_item_title' > Educational facilities without electricity</span>"+
             "<div id='progressbar'><div style='width:"+edu_no_e_w+"%'></div></div>"+
             "<span class = 'coll_item_title' > Area equipped for irrigation</span>"+
             "<div id='progressbar'><div style='width:"+irrigation_w+"%'></div></div>"+
@@ -1782,6 +1782,7 @@ setTimeout(function(){
     $('.clean_custom').click(function(){
         $('.mapbox-gl-draw_trash').click();
         map.setFilter('point_selecte_by_drow', ['==', 'fid', "" ]);
+        $( ".calculation-box" ).hide();
     });
 
   
@@ -3025,7 +3026,7 @@ map.on('draw.create', function(e){
   var score_irrigation = $("#irrigation_value").val();
   var score_groundw = $("#groundw_value").val();
   var score_access = $("#access_value").val();
-  var score_access_inv = $("#access_ind_value").val();
+  var score_access_inv = $("#access_inv_value").val();
   var score_lives = $("#lives_value").val();
   var score_tempano = $("#tempano_value").val();
   var score_solar = $("#solar_value").val();
@@ -3049,6 +3050,71 @@ map.on('draw.create', function(e){
   
 
 $( ".calculation-box" ).show();
+
+
+
+const ourData = [
+  {Variable:'Area equipped for Irrigation',Weight:   score_irrigation,Score:irrigationTotal,Result:parseFloat(   score_irrigation)*irrigationTotal},
+  {Variable:'Groundwater Irrigation',Weight:   score_groundw,Score:groundwTotal,Result:parseFloat(   score_groundw)*groundwTotal},
+  {Variable:'Most accessible areas',Weight:   score_access,Score:accessTotal,Result:parseFloat(   score_access)*accessTotal},
+  {Variable:'Least accessible areas',Weight:   score_access_inv,Score:access_invTotal,Result:parseFloat(   score_access_inv)*access_invTotal},
+  {Variable:'Livestock',Weight:   score_lives,Score:livesTotal,Result:parseFloat(   score_lives)*livesTotal},
+  {Variable:'Temperature Anomalies',Weight:   score_tempano,Score:tempanoTotal,Result:parseFloat(   score_tempano)*tempanoTotal},
+  {Variable:'Solar potential',Weight:   score_solar,Score:solarTotal,Result:parseFloat(   score_solar)*solarTotal},
+  {Variable:'Slope',Weight:   score_slope,Score:slopeTotal,Result:parseFloat(   score_slope)*slopeTotal},
+  {Variable:'Power plants',Weight:   score_powerplant,Score:powerplantTotal,Result:parseFloat(   score_powerplant)*powerplantTotal},
+  {Variable:'Population',Weight:   score_popdens,Score:popdensTotal,Result:parseFloat(   score_popdens)*popdensTotal},
+  {Variable:'Protected and Conserved Areas',Weight:   score_pca,Score:pcaTotal,Result:parseFloat(   score_pca)*pcaTotal},
+  {Variable:'Natural Areas',Weight:   score_natarea,Score:natareaTotal,Result:parseFloat(   score_natarea)*natareaTotal},
+  {Variable:'Intact Forest',Weight:   score_intactf,Score:intactfTotal,Result:parseFloat(   score_intactf)*intactfTotal},
+  {Variable:'Industrial Areas',Weight:   score_industrial,Score:industrialTotal,Result:parseFloat(   score_industrial)*industrialTotal},
+  {Variable:'Drought Risk',Weight:   score_drought,Score:droughtTotal,Result:parseFloat(   score_drought)*droughtTotal},
+  {Variable:'Health centers',Weight:   score_health,Score:healthTotal,Result:parseFloat(   score_health)*healthTotal},
+  {Variable:'Electricity grid',Weight:   score_grid,Score:gridTotal,Result:parseFloat(   score_grid)*gridTotal},
+  {Variable:'Elevation',Weight:   score_elevation,Score:elevationTotal,Result:parseFloat(   score_elevation)*elevationTotal},
+  {Variable:'Educational facilities',Weight:   score_education,Score:educationTotal,Result:parseFloat(   score_education)*educationTotal},
+  {Variable:'Educational facilities without electricity',Weight:   score_edu_no_e,Score:edu_no_eTotal,Result:parseFloat(   score_edu_no_e)*edu_no_eTotal},
+  {Variable:'Closest to the grid',Weight:   score_distance,Score:distanceTotal,Result:parseFloat(   score_distance)*distanceTotal},
+  {Variable:'Farthest from the grid',Weight:   score_distance_inv,Score:distance_invTotal,Result:parseFloat(   score_distance_inv)*distance_invTotal},
+  {Variable:'Armed conflicts',Weight:   score_conflict,Score:conflictTotal,Result:parseFloat(   score_conflict)*conflictTotal},
+  {Variable:'Wind potential', Weight:   score_wind,Score:windTotal,Result:parseFloat(   score_wind)*windTotal}
+  
+  
+]
+
+
+const titleKeys = Object.keys(ourData[0])
+
+const refinedData = []
+
+refinedData.push(titleKeys)
+
+ourData.forEach(item => {
+  refinedData.push(Object.values(item))  
+})
+
+
+let csvContent = ''
+
+refinedData.forEach(row => {
+  csvContent += row.join(',') + '\n'
+})
+
+
+const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
+const objUrl = URL.createObjectURL(blob)
+const link = document.createElement('a')
+link.setAttribute('href', objUrl)
+link.setAttribute('download', 'Stats.csv')
+link.textContent = 'Download scenario for the selected area '
+$('.download_stats').empty()
+document.querySelector('.download_stats').append(link)
+
+$('#download_map').click(function() {
+  var img = map.getCanvas().toDataURL('image/png')
+  this.href = img
+})
+
 
   $('#polygon_out_main_area').empty().append('<p>'+(Math.round(DrewAreaArray[0]*100)/100).toLocaleString()+'</em> km<sup>2</sup></p>')
  
@@ -3077,30 +3143,30 @@ $( ".calculation-box" ).show();
       },
     xAxis: {
         categories: [
-          'Area equipped for irrigation',
-          'Groundwater Irrigation',
-          'Most accessible Areas',
-          'Least accessible Areas',
-          'Livestock',
-          'Temperature Anomalies',
-          'Solar potential',
-          'Slope',
-          'Power plants',
-          'Population',
-          'Protected and Conserved Areas',
-          'Natural Areas',
-          'Intact Forest',
-          'Industrial Areas',
-          'Drought Risk',
-          'Health centers',
-          'Electricity grid',
-          'Elevation',
-          'Educational facilities',
-          'Educational facilities without electicity',
-          'Close to the existing grid',
-          'Far from the existing grid',
-          'Armed conflicts',
-          'Wind potential'
+      'Area equipped for irrigation',
+      'Groundwater Irrigation',
+      'Most accessible Areas',
+      'Least accessible Areas',
+      'Livestock',
+      'Temperature Anomalies',
+      'Solar potential',
+      'Slope',
+      'Power plants',
+      'Population',
+      'Protected and Conserved Areas',
+      'Natural Areas',
+      'Intact Forest',
+      'Industrial Areas',
+      'Drought Risk',
+      'Health centers',
+      'electricity grid',
+      'Elevation',
+      'Educational facilities',
+      'Educational facilities without electricity',
+      'Close to the existing grid',
+      'Far from the existing grid',
+      'Armed conflicts',
+      'Wind potential'
           
         ],
         crosshair: true
@@ -3183,7 +3249,7 @@ Highcharts.chart('polygon_out_main_2', {
           'Electricity grid',
           'Elevation',
           'Educational facilities',
-          'Educational facilities without electicity',
+          'Educational facilities without electricity',
           'Close to the existing grid',
           'Far from the existing grid',
           'Armed conflicts',
@@ -3219,12 +3285,18 @@ Highcharts.chart('polygon_out_main_2', {
       marker: {
       enabled: false,
     },
-        name: 'Area selected',
-        color: '#dea314',
-        data: [parseFloat((irrigationTotal)),	parseFloat((groundwTotal)),	parseFloat((accessTotal)),parseFloat((access_invTotal)),	parseFloat((livesTotal)),	parseFloat((tempanoTotal)),	parseFloat((solarTotal)),	parseFloat((slopeTotal)),	parseFloat((powerplantTotal)),	parseFloat((popdensTotal)),	parseFloat((pcaTotal)),	parseFloat((natareaTotal)),	parseFloat((intactfTotal)),	parseFloat((industrialTotal)),	parseFloat((droughtTotal)),	parseFloat((healthTotal)),	parseFloat((gridTotal)),	parseFloat((elevationTotal)),	parseFloat((educationTotal)),	parseFloat((edu_no_eTotal)), parseFloat((distanceTotal)),	parseFloat((distance_invTotal)), parseFloat((conflictTotal)),	parseFloat((windTotal))],
-        pointPlacement: 'on',
-        lineWidth : 1,
-    }],
+    name: 'Actual Score',
+    color: '#144ede',
+    type:'line',
+    data: [parseFloat((irrigationTotal)),	parseFloat((groundwTotal)),	parseFloat((accessTotal)),parseFloat((access_invTotal)),	parseFloat((livesTotal)),	parseFloat((tempanoTotal)),	parseFloat((solarTotal)),	parseFloat((slopeTotal)),	parseFloat((powerplantTotal)),	parseFloat((popdensTotal)),	parseFloat((pcaTotal)),	parseFloat((natareaTotal)),	parseFloat((intactfTotal)),	parseFloat((industrialTotal)),	parseFloat((droughtTotal)),	parseFloat((healthTotal)),	parseFloat((gridTotal)),	parseFloat((elevationTotal)),	parseFloat((educationTotal)),	parseFloat((edu_no_eTotal)), parseFloat((distanceTotal)), parseFloat((distance_invTotal)),	parseFloat((conflictTotal)),	parseFloat((windTotal))]
+
+},
+{
+    name: 'Weighted Score',
+    color: '#dea314',
+    data: [parseFloat(score_irrigation)*irrigationTotal,	parseFloat(score_groundw)*groundwTotal,	parseFloat(score_access)*accessTotal,	parseFloat(score_access_inv)*access_invTotal, parseFloat(score_lives)*livesTotal,	parseFloat(score_tempano)*tempanoTotal,	parseFloat(score_solar)*solarTotal,	parseFloat(score_slope)*slopeTotal,	parseFloat(score_powerplant)*powerplantTotal,	parseFloat(score_popdens)*popdensTotal,	parseFloat(score_pca)*pcaTotal,	parseFloat(score_natarea)*natareaTotal,	parseFloat(score_intactf)*intactfTotal,	parseFloat(score_industrial)*industrialTotal,	parseFloat(score_drought)*droughtTotal,	parseFloat(score_health)*healthTotal,	parseFloat(score_grid)*gridTotal,	parseFloat(score_elevation)*elevationTotal,	parseFloat(score_education)*educationTotal,	parseFloat(score_edu_no_e)*edu_no_eTotal, parseFloat(score_distance)*distanceTotal,	parseFloat(score_distance_inv)*distance_invTotal,parseFloat(score_conflict)*conflictTotal,	parseFloat(score_wind)*windTotal],
+    
+}],
     responsive: {
         rules: [{
             condition: {
@@ -3245,6 +3317,14 @@ Highcharts.chart('polygon_out_main_2', {
 });
 
 },200);
+
+
+
+
+
+
+
+
 
 $('.listings').animate({height:'show'},350);
 

@@ -1304,3 +1304,19 @@ body > div.sidebar > ul > li > div.collapsible-body.topic_body_main > span > div
     color: black;
     line-height: 37px;
 }
+
+.download_stats{
+  background: #bd8a10;
+  width: 94%;
+  margin-left: 3%;
+  color: white!important;
+  padding: 10px;
+}
+.download_map{
+  background: #bd8a10;
+  width: 94%;
+  margin-left: 3%;
+  color:#404040!important;
+  padding: 10px;
+  border-top: 1px #404040;
+}
