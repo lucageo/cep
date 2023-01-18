@@ -1662,13 +1662,13 @@ setTimeout(function(){
   });
   $("#pca_slider").on("input", function() {
     var pca = this.value;
-    $("#slope_value").html(pca);
+    $("#pca_value").html(pca);
     $('#submit').css('background-color','#dea314').css('color','#ffffff')
   });
 
   $("#intactf_slider").on("input", function() {
     var intactf = this.value;
-    $("#slope_value").html(intactf);
+    $("#intactf_value").html(intactf);
     $('#submit').css('background-color','#dea314').css('color','#ffffff')
   });
 
