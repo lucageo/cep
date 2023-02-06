@@ -229,38 +229,30 @@ var miolayer = map.getLayer('point');
 
         });
 
-        map.loadImage(
-          'https://lucageo.github.io/cep/img/mask3.png',
-          (err, image) => {
-          // Throw an error if something goes wrong.
-          if (err) throw err;
-           
-          // Add the image to the map style.
-          map.addImage('pattern', image);
-        
 
+  
         map.addLayer({
-          "id": "mask_ben",
+          "id": "eez_land",
           "type": "fill",
           "source": {
               "type": "vector",
-              "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=africa_platform:mask_ben&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
+              "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=hotspots:eez_land&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
               },
-          "source-layer": "mask_ben",
-
-          'paint': {
-          'fill-pattern': 'pattern',
-          'fill-opacity': 0.1,
-          }
+          "source-layer": "eez_land",
     
-        });
-      }
-      );
-
-  
-  
-
-
+          'paint': { 
+            'fill-color': '#FFFFFF',
+            'fill-outline-color': '#ffffff',
+            
+         
+            'fill-opacity': 0,
+    
+    
+                    },
+                    'filter': ["in", "iso3",'BEN'],
+    
+      }, 'waterway-label');
+      
       map.addLayer({
         "id": "benin_bound",
         "type": "fill",
@@ -294,7 +286,7 @@ var miolayer = map.getLayer('point');
       "source-layer": "dopa_geoserver_wdpa_master_202101_o1",
 
       'paint': { 
-        'fill-color': '#FFF',
+        'fill-color': '#ffffff',
        // 'fill-outline-color': 'black',
     
                       'fill-opacity': 0.1,
@@ -312,9 +304,9 @@ var miolayer = map.getLayer('point');
         "type": "circle",
         "source": {
             "type": "vector",
-            "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=dopa_analyst:grid_benin_energy_latest_&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
+            "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=dopa_analyst:grid_benin_energy_latest&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
             },
-        "source-layer": "grid_benin_energy_latest_",
+        "source-layer": "grid_benin_energy_latest",
         'paint': {
           // make circles larger as the user zooms from z12 to z22
           'circle-radius': {
@@ -362,14 +354,14 @@ var miolayer = map.getLayer('point');
         "type": "circle",
         "source": {
             "type": "vector",
-            "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=dopa_analyst:grid_benin_energy_latest_&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
+            "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=dopa_analyst:grid_benin_energy_latest&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
             },
-        "source-layer": "grid_benin_energy_latest_",
+        "source-layer": "grid_benin_energy_latest",
         'paint': {
           // make circles larger as the user zooms from z12 to z22
           'circle-radius': {
-            'base': 1,
-            'stops': [[8, 7], [12, 50]]
+            'base': 4,
+            'stops': [[1, 5], [10, 8]]
           },
         'circle-color': '#3bb2d0',
 
@@ -482,7 +474,6 @@ var  distance =e.features[0].properties.distance
 var  distance_inv =e.features[0].properties.distance_inv
 var  conflict =e.features[0].properties.conflict
 var  wind =e.features[0].properties.wind
-var  hydro =e.features[0].properties.hydro
 
 
 var  irrigation_w = (e.features[0].properties.irrigation)*100;
@@ -509,7 +500,7 @@ var  distance_w  =(e.features[0].properties.distance)*100;
 var  distance_inv_w  =(e.features[0].properties.distance_inv)*100;
 var  conflict_w  =(e.features[0].properties.conflict)*100;
 var  wind_w  =(e.features[0].properties.wind)*100;
-var  hydro_w  =(e.features[0].properties.hydro)*100;
+
 
 
 
@@ -534,7 +525,7 @@ $('#popup').html(
           "<span class = 'coll_item_title' > Wind potential</span>"+
           "<div id='progressbar'><div style='width:"+wind_w+"%'></div></div>"+
           "<span class = 'coll_item_title' > Hydropower potential (not yet available)</span>"+
-          "<div id='progressbar'><div style='width:"+hydro_w+"%'></div></div>"+
+          "<div id='progressbar'><div style='width: 0%'></div></div>"+
           "<span class = 'coll_item_title' > Most accessible areas</span>"+
           "<div id='progressbar'><div style='width:"+access_w+"%'></div></div>"+
           "<span class = 'coll_item_title' > Least accessible areas</span>"+
@@ -551,7 +542,7 @@ $('#popup').html(
             "<div id='progressbar'><div style='width:"+health_w+"%'></div></div>"+
             "<span class = 'coll_item_title' > Educational facilities</span>"+
             "<div id='progressbar'><div style='width:"+education_w+"%'></div></div>"+
-            "<span class = 'coll_item_title' > Educational facilities without electricity</span>"+
+            "<span class = 'coll_item_title' > Educational facilities without electicity</span>"+
             "<div id='progressbar'><div style='width:"+edu_no_e_w+"%'></div></div>"+
             "<span class = 'coll_item_title' > Area equipped for irrigation</span>"+
             "<div id='progressbar'><div style='width:"+irrigation_w+"%'></div></div>"+
@@ -634,7 +625,7 @@ var max_distance = 0
 var max_distance_inv = 0
 var max_conflict = 0
 var max_wind = 0
-var max_hydro = 0
+
 
 var min_irrigation = 0
 var min_groundw = 0
@@ -660,7 +651,7 @@ var min_distance = 0
 var min_distance_inv = 0
 var min_conflict = 0
 var min_wind = 0
-var min_hydro = 0
+
 
 var mean_irrigation = 0
 var mean_groundw = 0
@@ -686,7 +677,7 @@ var mean_distance = 0
 var mean_distance_inv = 0
 var mean_conflict = 0
 var mean_wind = 0
-var mean_hydro = 0
+
 
 
 
@@ -854,12 +845,7 @@ function wind_max(){
   var max = Math.max.apply(null, vals);
   return max
 };
-function hydro_max(){
-  var features = map.queryRenderedFeatures({ layers: ['grid_points_3'] });
-  var vals = features.map(f => f.properties.hydro);
-  var max = Math.max.apply(null, vals);
-  return max
-};
+
 
 
 
@@ -1028,12 +1014,7 @@ function wind_min(){
   var min = Math.min.apply(null, vals);
   return min
 };
-function hydro_min(){
-  var features = map.queryRenderedFeatures({ layers: ['grid_points_3'] });
-  var vals = features.map(f => f.properties.hydro);
-  var min = Math.min.apply(null, vals);
-  return min
-};
+
 
 function irrigation_mean(){
   var features = map.queryRenderedFeatures({ layers: ['grid_points_3'] });
@@ -1281,16 +1262,7 @@ function wind_mean(){
     var mean = total / vals.length;
   return mean
 };
-function hydro_mean(){
-  var features = map.queryRenderedFeatures({ layers: ['grid_points_3'] });
-  var vals = features.map(f => f.properties.hydro);
-  var total = 0;
-    for(var i = 0; i < vals.length; i++) {
-        total += vals[i];
-    }
-    var mean = total / vals.length;
-  return mean
-};
+
 
 
 
@@ -1325,11 +1297,6 @@ $("#country_name").click(function(){
       $('#wind_slider').val(1);
       $('.delvarico-wind').html("clear");
       $('.range-field-wind').css('opacity', '1');
-
-      $("#hydro_value").html(1);
-      $('#hydro_slider').val(1);
-      $('.delvarico-hydro').html("clear");
-      $('.range-field-hydro').css('opacity', '1');
 
       $("#hydro_value").html(1);
       $('#hydro_slider').val(1);
@@ -1426,6 +1393,10 @@ $("#country_name").click(function(){
       $('.delvarico-drought').html("clear");
       $('.range-field-drought').css('opacity', '1');
 
+      $("#waterp_value").html(1);
+      $('#waterp_slider').val(1);
+      $('.delvarico-waterp').html("clear");
+      $('.range-field-waterp').css('opacity', '1');
 
       $("#foodsec_value").html(1);
       $('#foodsec_th_slider').val(1);
@@ -1491,29 +1462,11 @@ setTimeout(function(){
         const keys = Object.keys (busy_tabsx);
         return keys[Math.floor(Math.random() * keys.length)];
       }
-      
-      var first = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Computing spatial statistics...', fontSize: '1.5rem', color:'#d0d0d0',background:'#000407cf'}
-      var second = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Extracting values...', fontSize: '1.5rem', color:'#d0d0d0',background:'#000407cf'}
-      var third = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Generating map tiles...', fontSize: '1.5rem', color:'#d0d0d0',background:'#000407cf'}
-      var forth = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "right",text: 'Loading results...', fontSize: '1.5rem', color:'#d0d0d0',background:'#000407cf'}
+      var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', textPosition: "bottom",text: getRandomProperty(busy_tabsx), fontSize: '1rem', color:'#171d28',background:'#ffffffab'}
 
-      var loading = true;
-      if (loading) {
-        setTimeout(() => {
-          $("#map").busyLoad("show", first);
-        }, 0);
-        setTimeout(() => {
-          $("#map").busyLoad("hide").busyLoad("show", second);
-        }, 1200);
-        setTimeout(() => {
-          $("#map").busyLoad("hide").busyLoad("show", third);
-        }, 2800);
-        setTimeout(() => {
-          $("#map").busyLoad("hide").busyLoad("show", forth);
-        }, 3800);
-      }
 
-      
+
+      $("#map").busyLoad("show", gianni);
    
  
   
@@ -1662,13 +1615,13 @@ setTimeout(function(){
   });
   $("#pca_slider").on("input", function() {
     var pca = this.value;
-    $("#pca_value").html(pca);
+    $("#slope_value").html(pca);
     $('#submit').css('background-color','#dea314').css('color','#ffffff')
   });
 
   $("#intactf_slider").on("input", function() {
     var intactf = this.value;
-    $("#intactf_value").html(intactf);
+    $("#slope_value").html(intactf);
     $('#submit').css('background-color','#dea314').css('color','#ffffff')
   });
 
@@ -1682,7 +1635,11 @@ setTimeout(function(){
     $("#drought_value").html(drought);
     $('#submit').css('background-color','#dea314').css('color','#ffffff')
   });
-
+  $("#waterp_slider").on("input", function() {
+    var waterp = this.value;
+    $("#waterp_value").html(waterp);
+    $('#submit').css('background-color','#dea314').css('color','#ffffff')
+  });
 
   ///-----------------------------------------------------
   $("#foodsec_th_slider").on("input", function() {
@@ -1799,7 +1756,6 @@ setTimeout(function(){
     $('.clean_custom').click(function(){
         $('.mapbox-gl-draw_trash').click();
         map.setFilter('point_selecte_by_drow', ['==', 'fid', "" ]);
-        $( ".calculation-box" ).hide();
     });
 
   
@@ -1829,7 +1785,7 @@ setTimeout(function(){
     },1000);
 
     }else{
-      var filter_wdpa = ["in", 'iso3', 'XXX'];
+      var filter_wdpa = ["in", 'iso3', 'xxx'];
       map.setFilter('dopa_geoserver_wdpa_master_202101_o1', filter_wdpa);
       var filter_points = ["in", 'adm0_code', country_id_fi];
       map.setFilter('grid_points_3', filter_points);
@@ -2139,7 +2095,18 @@ $('.delvarico-distance').click(function() {
         $('.delvarico-drought').html("add");
         $('.range-field-drought').css('opacity', '0');
         }});
-
+        $('.delvarico-waterp').click(function() {
+        var resetval = $("#waterp_value").html();
+        if(resetval== 0){
+        $("#waterp_value").html(1);
+        $('#waterp_slider').val(1);
+        $('.delvarico-waterp').html("clear");
+        $('.range-field-waterp').css('opacity', '1');
+        }else{
+        $("#waterp_value").html(0);
+        $('.delvarico-waterp').html("add");
+        $('.range-field-waterp').css('opacity', '0');
+        }});
         $('.delvarico-foodsec').click(function() {
         var resetval = $("#foodsec_value").html();
         if(resetval== 0){
@@ -2277,7 +2244,10 @@ $('.delvarico-distance').click(function() {
           $('#drought_slider').val(1);
           $('.delvarico-drought').html("clear");
           $('.range-field-drought').css('opacity', '1');
-  
+          $("#waterp_value").html(1);
+          $('#waterp_slider').val(1);
+          $('.delvarico-waterp').html("clear");
+          $('.range-field-waterp').css('opacity', '1');
           $("#foodsec_value").html(1);
           $('#foodsec_th_slider').val(1);
           $('.delvarico-foodsec').html("clear");
@@ -2368,7 +2338,9 @@ $('.delvarico-distance').click(function() {
           $("#tempano_value").html(0);
           $('.delvarico-tempano').html("add");
           $('.range-field-tempano').css('opacity', '0');
-
+          $("#waterp_value").html(0);
+          $('.delvarico-waterp').html("add");
+          $('.range-field-waterp').css('opacity', '0');
           $("#foodsec_value").html(0);
           $('.delvarico-foodsec').html("add");
           $('.range-field-foodsec').css('opacity', '0');
@@ -2466,7 +2438,6 @@ var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', text: getRandomProp
   max_distance_inv= (distance_inv_max());
   max_conflict= (conflict_max());
   max_wind= (wind_max());
-  max_hydro= (hydro_max());
 
   min_irrigation= (irrigation_min());
   min_groundw= (groundw_min());
@@ -2492,7 +2463,6 @@ var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', text: getRandomProp
   min_distance_inv= (distance_inv_min());
   min_conflict= (conflict_min());
   min_wind= (wind_min());
-  min_hydro= (hydro_min());
 
   mean_irrigation= (irrigation_mean());
   mean_groundw= (groundw_mean());
@@ -2518,7 +2488,6 @@ var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', text: getRandomProp
   mean_distance_inv= (distance_inv_mean());
   mean_conflict= (conflict_mean());
   mean_wind= (wind_mean());
-  mean_hydro= (hydro_mean());
 
   var score_irrigation=$("#irrigation_value").val();
   var score_groundw=$("#groundw_value").val();
@@ -2544,11 +2513,10 @@ var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', text: getRandomProp
   var score_distance_inv=$("#distance_inv_value").val();
   var score_conflict=$("#conflict_value").val();
   var score_wind=$("#wind_value").val();
-  var score_hydro=$("#hydro_value").val();
 
-    var min_val = (min_irrigation*score_irrigation)+	(min_groundw*score_groundw)+	(min_access*score_access)+	(min_access_inv*score_access_inv)+(min_lives*score_lives)+	(min_tempano*score_tempano)+	(min_solar*score_solar)+	(min_slope*score_slope)+	(min_powerplant*score_powerplant)+	(min_popdens*score_popdens)+	(min_pca*score_pca)+	(min_natarea*score_natarea)+	(min_intactf*score_intactf)+	(min_industrial*score_industrial)+	(min_drought*score_drought)+	(min_health*score_health)+	(min_grid*score_grid)+	(min_elevation*score_elevation)+	(min_education*score_education)+	(min_edu_no_e*score_edu_no_e)+(min_distance*score_distance)+(min_distance_inv*score_distance_inv)+	(min_conflict*score_conflict)+	(min_wind*score_wind)+	(min_hydro*score_hydro)
-    var max_val = (max_irrigation*score_irrigation)+	(max_groundw*score_groundw)+	(max_access*score_access)+(max_access_inv*score_access_inv)+	(max_lives*score_lives)+	(max_tempano*score_tempano)+	(max_solar*score_solar)+	(max_slope*score_slope)+	(max_powerplant*score_powerplant)+	(max_popdens*score_popdens)+	(max_pca*score_pca)+	(max_natarea*score_natarea)+	(max_intactf*score_intactf)+	(max_industrial*score_industrial)+	(max_drought*score_drought)+	(max_health*score_health)+	(max_grid*score_grid)+	(max_elevation*score_elevation)+	(max_education*score_education)+	(max_edu_no_e*score_edu_no_e)+(max_distance*score_distance)+(max_distance_inv*score_distance_inv)+	(max_conflict*score_conflict)+	(max_wind*score_wind)	+	(max_hydro*score_hydro) 																	
-    var avg_val = (mean_irrigation*score_irrigation)+	(mean_groundw*score_groundw)+	(mean_access*score_access)+	(mean_access_inv*score_access_inv)+(mean_lives*score_lives)+	(mean_tempano*score_tempano)+	(mean_solar*score_solar)+	(mean_slope*score_slope)+	(mean_powerplant*score_powerplant)+	(mean_popdens*score_popdens)+	(mean_pca*score_pca)+	(mean_natarea*score_natarea)+	(mean_intactf*score_intactf)+	(mean_industrial*score_industrial)+	(mean_drought*score_drought)+	(mean_health*score_health)+	(mean_grid*score_grid)+	(mean_elevation*score_elevation)+	(mean_education*score_education)+	(mean_edu_no_e*score_edu_no_e)+(mean_distance*score_distance)+	(mean_distance_inv*score_distance_inv)+(mean_conflict*score_conflict)+	(mean_hydro*score_hydro)
+    var min_val = (min_irrigation*score_irrigation)+	(min_groundw*score_groundw)+	(min_access*score_access)+	(min_access_inv*score_access_inv)+(min_lives*score_lives)+	(min_tempano*score_tempano)+	(min_solar*score_solar)+	(min_slope*score_slope)+	(min_powerplant*score_powerplant)+	(min_popdens*score_popdens)+	(min_pca*score_pca)+	(min_natarea*score_natarea)+	(min_intactf*score_intactf)+	(min_industrial*score_industrial)+	(min_drought*score_drought)+	(min_health*score_health)+	(min_grid*score_grid)+	(min_elevation*score_elevation)+	(min_education*score_education)+	(min_edu_no_e*score_edu_no_e)+(min_distance*score_distance)+(min_distance_inv*score_distance_inv)+	(min_conflict*score_conflict)+	(min_wind*score_wind)
+    var max_val = (max_irrigation*score_irrigation)+	(max_groundw*score_groundw)+	(max_access*score_access)+(max_access_inv*score_access_inv)+	(max_lives*score_lives)+	(max_tempano*score_tempano)+	(max_solar*score_solar)+	(max_slope*score_slope)+	(max_powerplant*score_powerplant)+	(max_popdens*score_popdens)+	(max_pca*score_pca)+	(max_natarea*score_natarea)+	(max_intactf*score_intactf)+	(max_industrial*score_industrial)+	(max_drought*score_drought)+	(max_health*score_health)+	(max_grid*score_grid)+	(max_elevation*score_elevation)+	(max_education*score_education)+	(max_edu_no_e*score_edu_no_e)+(max_distance*score_distance)+(max_distance_inv*score_distance_inv)+	(max_conflict*score_conflict)+	(max_wind*score_wind) 																				
+    var avg_val = (mean_irrigation*score_irrigation)+	(mean_groundw*score_groundw)+	(mean_access*score_access)+	(mean_access_inv*score_access_inv)+(mean_lives*score_lives)+	(mean_tempano*score_tempano)+	(mean_solar*score_solar)+	(mean_slope*score_slope)+	(mean_powerplant*score_powerplant)+	(mean_popdens*score_popdens)+	(mean_pca*score_pca)+	(mean_natarea*score_natarea)+	(mean_intactf*score_intactf)+	(mean_industrial*score_industrial)+	(mean_drought*score_drought)+	(mean_health*score_health)+	(mean_grid*score_grid)+	(mean_elevation*score_elevation)+	(mean_education*score_education)+	(mean_edu_no_e*score_edu_no_e)+(mean_distance*score_distance)+	(mean_distance_inv*score_distance_inv)+(mean_conflict*score_conflict)+	(mean_wind*score_wind)
 
     if ($('input.checkbox_check').is(':checked')) {
       setTimeout(function(){
@@ -2611,8 +2579,8 @@ var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', text: getRandomProp
       [ "*", ['get', 'distance'],  parseInt(score_distance)],
       [ "*", ['get', 'distance_inv'],  parseInt(score_distance_inv)],
       [ "*", ['get', 'conflict'],  parseInt(score_conflict)],
-      [ "*", ['get', 'wind'],  parseInt(score_wind)],
-      [ "*", ['get', 'hydro'],  parseInt(score_hydro)]
+      [ "*", ['get', 'wind'],  parseInt(score_wind)]
+      
       ],
 
       min_val,"#f2690a",avg_val, "#E2EB16", max_val,"#12EB5D"]);
@@ -3027,24 +2995,11 @@ map.on('draw.create', function(e){
     windTotal += wind[i]/len;
   }
 
-  var hydro = features.reduce(function(print_hydro, feature) {
-    var inside=turf.pointsWithinPolygon(feature, userPolygon)
-      if (! (undefined === inside)) {
-        if (inside.features.length>0){
-          print_hydro.push(feature.properties.hydro);
-        }
-      }
-        return print_hydro;
-  }, []);
-  var hydroTotal = 0;
-  for(var i = 0, len = hydro.length; i < len; i++) {
-    hydroTotal += hydro[i]/len;
-  }
 
   var score_irrigation = $("#irrigation_value").val();
   var score_groundw = $("#groundw_value").val();
   var score_access = $("#access_value").val();
-  var score_access_inv = $("#access_inv_value").val();
+  var score_access_inv = $("#access_ind_value").val();
   var score_lives = $("#lives_value").val();
   var score_tempano = $("#tempano_value").val();
   var score_solar = $("#solar_value").val();
@@ -3065,74 +3020,9 @@ map.on('draw.create', function(e){
   var score_distance_inv = $("#distance_inv_value").val();
   var score_conflict = $("#conflict_value").val();
   var score_wind = $("#wind_value").val();
-  var score_hydro = $("#hydro_value").val();
+  
 
 $( ".calculation-box" ).show();
-
-
-
-const ourData = [
-  {Variable:'Area equipped for Irrigation',Weight:   score_irrigation,Score:irrigationTotal,Result:parseFloat(   score_irrigation)*irrigationTotal},
-  {Variable:'Groundwater Irrigation',Weight:   score_groundw,Score:groundwTotal,Result:parseFloat(   score_groundw)*groundwTotal},
-  {Variable:'Most accessible areas',Weight:   score_access,Score:accessTotal,Result:parseFloat(   score_access)*accessTotal},
-  {Variable:'Least accessible areas',Weight:   score_access_inv,Score:access_invTotal,Result:parseFloat(   score_access_inv)*access_invTotal},
-  {Variable:'Livestock',Weight:   score_lives,Score:livesTotal,Result:parseFloat(   score_lives)*livesTotal},
-  {Variable:'Temperature Anomalies',Weight:   score_tempano,Score:tempanoTotal,Result:parseFloat(   score_tempano)*tempanoTotal},
-  {Variable:'Solar potential',Weight:   score_solar,Score:solarTotal,Result:parseFloat(   score_solar)*solarTotal},
-  {Variable:'Slope',Weight:   score_slope,Score:slopeTotal,Result:parseFloat(   score_slope)*slopeTotal},
-  {Variable:'Power plants',Weight:   score_powerplant,Score:powerplantTotal,Result:parseFloat(   score_powerplant)*powerplantTotal},
-  {Variable:'Population',Weight:   score_popdens,Score:popdensTotal,Result:parseFloat(   score_popdens)*popdensTotal},
-  {Variable:'Protected and Conserved Areas',Weight:   score_pca,Score:pcaTotal,Result:parseFloat(   score_pca)*pcaTotal},
-  {Variable:'Natural Areas',Weight:   score_natarea,Score:natareaTotal,Result:parseFloat(   score_natarea)*natareaTotal},
-  {Variable:'Intact Forest',Weight:   score_intactf,Score:intactfTotal,Result:parseFloat(   score_intactf)*intactfTotal},
-  {Variable:'Industrial Areas',Weight:   score_industrial,Score:industrialTotal,Result:parseFloat(   score_industrial)*industrialTotal},
-  {Variable:'Drought Risk',Weight:   score_drought,Score:droughtTotal,Result:parseFloat(   score_drought)*droughtTotal},
-  {Variable:'Health centers',Weight:   score_health,Score:healthTotal,Result:parseFloat(   score_health)*healthTotal},
-  {Variable:'Electricity grid',Weight:   score_grid,Score:gridTotal,Result:parseFloat(   score_grid)*gridTotal},
-  {Variable:'Elevation',Weight:   score_elevation,Score:elevationTotal,Result:parseFloat(   score_elevation)*elevationTotal},
-  {Variable:'Educational facilities',Weight:   score_education,Score:educationTotal,Result:parseFloat(   score_education)*educationTotal},
-  {Variable:'Educational facilities without electricity',Weight:   score_edu_no_e,Score:edu_no_eTotal,Result:parseFloat(   score_edu_no_e)*edu_no_eTotal},
-  {Variable:'Closest to the grid',Weight:   score_distance,Score:distanceTotal,Result:parseFloat(   score_distance)*distanceTotal},
-  {Variable:'Farthest from the grid',Weight:   score_distance_inv,Score:distance_invTotal,Result:parseFloat(   score_distance_inv)*distance_invTotal},
-  {Variable:'Armed conflicts',Weight:   score_conflict,Score:conflictTotal,Result:parseFloat(   score_conflict)*conflictTotal},
-  {Variable:'Wind potential', Weight:   score_wind,Score:windTotal,Result:parseFloat(   score_wind)*windTotal},
-  {Variable:'Hydropower potential', Weight:   score_hydro,Score:hydroTotal,Result:parseFloat(   score_hydro)*hydroTotal}
-  
-]
-
-
-const titleKeys = Object.keys(ourData[0])
-
-const refinedData = []
-
-refinedData.push(titleKeys)
-
-ourData.forEach(item => {
-  refinedData.push(Object.values(item))  
-})
-
-
-let csvContent = ''
-
-refinedData.forEach(row => {
-  csvContent += row.join(',') + '\n'
-})
-
-
-const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
-const objUrl = URL.createObjectURL(blob)
-const link = document.createElement('a')
-link.setAttribute('href', objUrl)
-link.setAttribute('download', 'Stats.csv')
-link.textContent = 'Download scenario for the selected area '
-$('.download_stats').empty()
-document.querySelector('.download_stats').append(link)
-
-$('#download_map').click(function() {
-  var img = map.getCanvas().toDataURL('image/png')
-  this.href = img
-})
-
 
   $('#polygon_out_main_area').empty().append('<p>'+(Math.round(DrewAreaArray[0]*100)/100).toLocaleString()+'</em> km<sup>2</sup></p>')
  
@@ -3161,31 +3051,30 @@ $('#download_map').click(function() {
       },
     xAxis: {
         categories: [
-      'Area equipped for irrigation',
-      'Groundwater Irrigation',
-      'Most accessible Areas',
-      'Least accessible Areas',
-      'Livestock',
-      'Temperature Anomalies',
-      'Solar potential',
-      'Slope',
-      'Power plants',
-      'Population',
-      'Protected and Conserved Areas',
-      'Natural Areas',
-      'Intact Forest',
-      'Industrial Areas',
-      'Drought Risk',
-      'Health centers',
-      'electricity grid',
-      'Elevation',
-      'Educational facilities',
-      'Educational facilities without electricity',
-      'Close to the existing grid',
-      'Far from the existing grid',
-      'Armed conflicts',
-      'Wind potential',
-      'Hydropower potential'
+          'Area equipped for irrigation',
+          'Groundwater Irrigation',
+          'Most accessible Areas',
+          'Least accessible Areas',
+          'Livestock',
+          'Temperature Anomalies',
+          'Solar potential',
+          'Slope',
+          'Power plants',
+          'Population',
+          'Protected and Conserved Areas',
+          'Natural Areas',
+          'Intact Forest',
+          'Industrial Areas',
+          'Drought Risk',
+          'Health centers',
+          'Electricity grid',
+          'Elevation',
+          'Educational facilities',
+          'Educational facilities without electicity',
+          'Close to the existing grid',
+          'Far from the existing grid',
+          'Armed conflicts',
+          'Wind potential'
           
         ],
         crosshair: true
@@ -3211,13 +3100,13 @@ $('#download_map').click(function() {
     series: [{
         name: 'Actual Score',
         color: '#78b022',
-        data: [parseFloat((irrigationTotal)),	parseFloat((groundwTotal)),	parseFloat((accessTotal)),parseFloat((access_invTotal)),	parseFloat((livesTotal)),	parseFloat((tempanoTotal)),	parseFloat((solarTotal)),	parseFloat((slopeTotal)),	parseFloat((powerplantTotal)),	parseFloat((popdensTotal)),	parseFloat((pcaTotal)),	parseFloat((natareaTotal)),	parseFloat((intactfTotal)),	parseFloat((industrialTotal)),	parseFloat((droughtTotal)),	parseFloat((healthTotal)),	parseFloat((gridTotal)),	parseFloat((elevationTotal)),	parseFloat((educationTotal)),	parseFloat((edu_no_eTotal)), parseFloat((distanceTotal)), parseFloat((distance_invTotal)),	parseFloat((conflictTotal)),	parseFloat((windTotal)),	parseFloat((hydroTotal))]
+        data: [parseFloat((irrigationTotal)),	parseFloat((groundwTotal)),	parseFloat((accessTotal)),parseFloat((access_invTotal)),	parseFloat((livesTotal)),	parseFloat((tempanoTotal)),	parseFloat((solarTotal)),	parseFloat((slopeTotal)),	parseFloat((powerplantTotal)),	parseFloat((popdensTotal)),	parseFloat((pcaTotal)),	parseFloat((natareaTotal)),	parseFloat((intactfTotal)),	parseFloat((industrialTotal)),	parseFloat((droughtTotal)),	parseFloat((healthTotal)),	parseFloat((gridTotal)),	parseFloat((elevationTotal)),	parseFloat((educationTotal)),	parseFloat((edu_no_eTotal)), parseFloat((distanceTotal)), parseFloat((distance_invTotal)),	parseFloat((conflictTotal)),	parseFloat((windTotal))]
 
     },
     {
         name: 'Weighted Score',
         color: '#aebaba',
-        data: [parseFloat(score_irrigation)*irrigationTotal,	parseFloat(score_groundw)*groundwTotal,	parseFloat(score_access)*accessTotal,	parseFloat(score_access_inv)*access_invTotal, parseFloat(score_lives)*livesTotal,	parseFloat(score_tempano)*tempanoTotal,	parseFloat(score_solar)*solarTotal,	parseFloat(score_slope)*slopeTotal,	parseFloat(score_powerplant)*powerplantTotal,	parseFloat(score_popdens)*popdensTotal,	parseFloat(score_pca)*pcaTotal,	parseFloat(score_natarea)*natareaTotal,	parseFloat(score_intactf)*intactfTotal,	parseFloat(score_industrial)*industrialTotal,	parseFloat(score_drought)*droughtTotal,	parseFloat(score_health)*healthTotal,	parseFloat(score_grid)*gridTotal,	parseFloat(score_elevation)*elevationTotal,	parseFloat(score_education)*educationTotal,	parseFloat(score_edu_no_e)*edu_no_eTotal, parseFloat(score_distance)*distanceTotal,	parseFloat(score_distance_inv)*distance_invTotal,parseFloat(score_conflict)*conflictTotal,	parseFloat(score_wind)*windTotal ,	parseFloat(score_hydro)*hydroTotal]
+        data: [parseFloat(score_irrigation)*irrigationTotal,	parseFloat(score_groundw)*groundwTotal,	parseFloat(score_access)*accessTotal,	parseFloat(score_access_inv)*access_invTotal, parseFloat(score_lives)*livesTotal,	parseFloat(score_tempano)*tempanoTotal,	parseFloat(score_solar)*solarTotal,	parseFloat(score_slope)*slopeTotal,	parseFloat(score_powerplant)*powerplantTotal,	parseFloat(score_popdens)*popdensTotal,	parseFloat(score_pca)*pcaTotal,	parseFloat(score_natarea)*natareaTotal,	parseFloat(score_intactf)*intactfTotal,	parseFloat(score_industrial)*industrialTotal,	parseFloat(score_drought)*droughtTotal,	parseFloat(score_health)*healthTotal,	parseFloat(score_grid)*gridTotal,	parseFloat(score_elevation)*elevationTotal,	parseFloat(score_education)*educationTotal,	parseFloat(score_edu_no_e)*edu_no_eTotal, parseFloat(score_distance)*distanceTotal,	parseFloat(score_distance_inv)*distance_invTotal,parseFloat(score_conflict)*conflictTotal,	parseFloat(score_wind)*windTotal]
 
     }]
 
@@ -3268,13 +3157,11 @@ Highcharts.chart('polygon_out_main_2', {
           'Electricity grid',
           'Elevation',
           'Educational facilities',
-          'Educational facilities without electricity',
+          'Educational facilities without electicity',
           'Close to the existing grid',
           'Far from the existing grid',
           'Armed conflicts',
-          'Wind potential',
-          'Hydropower potential'
-        ],
+          'Wind potential'],
         tickmarkPlacement: 'on',
         lineWidth: 0
 
@@ -3306,18 +3193,12 @@ Highcharts.chart('polygon_out_main_2', {
       marker: {
       enabled: false,
     },
-    name: 'Actual Score',
-    color: '#144ede',
-    type:'line',
-    data: [parseFloat((irrigationTotal)),	parseFloat((groundwTotal)),	parseFloat((accessTotal)),parseFloat((access_invTotal)),	parseFloat((livesTotal)),	parseFloat((tempanoTotal)),	parseFloat((solarTotal)),	parseFloat((slopeTotal)),	parseFloat((powerplantTotal)),	parseFloat((popdensTotal)),	parseFloat((pcaTotal)),	parseFloat((natareaTotal)),	parseFloat((intactfTotal)),	parseFloat((industrialTotal)),	parseFloat((droughtTotal)),	parseFloat((healthTotal)),	parseFloat((gridTotal)),	parseFloat((elevationTotal)),	parseFloat((educationTotal)),	parseFloat((edu_no_eTotal)), parseFloat((distanceTotal)), parseFloat((distance_invTotal)),	parseFloat((conflictTotal)),	parseFloat((windTotal)),	parseFloat((hydroTotal))]
-
-},
-{
-    name: 'Weighted Score',
-    color: '#dea314',
-    data: [parseFloat(score_irrigation)*irrigationTotal,	parseFloat(score_groundw)*groundwTotal,	parseFloat(score_access)*accessTotal,	parseFloat(score_access_inv)*access_invTotal, parseFloat(score_lives)*livesTotal,	parseFloat(score_tempano)*tempanoTotal,	parseFloat(score_solar)*solarTotal,	parseFloat(score_slope)*slopeTotal,	parseFloat(score_powerplant)*powerplantTotal,	parseFloat(score_popdens)*popdensTotal,	parseFloat(score_pca)*pcaTotal,	parseFloat(score_natarea)*natareaTotal,	parseFloat(score_intactf)*intactfTotal,	parseFloat(score_industrial)*industrialTotal,	parseFloat(score_drought)*droughtTotal,	parseFloat(score_health)*healthTotal,	parseFloat(score_grid)*gridTotal,	parseFloat(score_elevation)*elevationTotal,	parseFloat(score_education)*educationTotal,	parseFloat(score_edu_no_e)*edu_no_eTotal, parseFloat(score_distance)*distanceTotal,	parseFloat(score_distance_inv)*distance_invTotal,parseFloat(score_conflict)*conflictTotal,	parseFloat(score_wind)*windTotal, parseFloat(score_hydro)*hydroTotal],
-    
-}],
+        name: 'Area selected',
+        color: '#dea314',
+        data: [parseFloat((irrigationTotal)),	parseFloat((groundwTotal)),	parseFloat((accessTotal)),parseFloat((access_invTotal)),	parseFloat((livesTotal)),	parseFloat((tempanoTotal)),	parseFloat((solarTotal)),	parseFloat((slopeTotal)),	parseFloat((powerplantTotal)),	parseFloat((popdensTotal)),	parseFloat((pcaTotal)),	parseFloat((natareaTotal)),	parseFloat((intactfTotal)),	parseFloat((industrialTotal)),	parseFloat((droughtTotal)),	parseFloat((healthTotal)),	parseFloat((gridTotal)),	parseFloat((elevationTotal)),	parseFloat((educationTotal)),	parseFloat((edu_no_eTotal)), parseFloat((distanceTotal)),	parseFloat((distance_invTotal)), parseFloat((conflictTotal)),	parseFloat((windTotal))],
+        pointPlacement: 'on',
+        lineWidth : 1,
+    }],
     responsive: {
         rules: [{
             condition: {
@@ -3338,14 +3219,6 @@ Highcharts.chart('polygon_out_main_2', {
 });
 
 },200);
-
-
-
-
-
-
-
-
 
 $('.listings').animate({height:'show'},350);
 
