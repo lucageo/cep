@@ -151,19 +151,4 @@ UPDATE analyst.grid_benin_energy_latest SET      distance =0 where    distance  
 UPDATE analyst.grid_benin_energy_latest SET      conflict =0 where    conflict  IS NULL;
 UPDATE analyst.grid_benin_energy_latest SET      wind =0 where    wind  IS NULL;
 UPDATE analyst.grid_benin_energy_latest SET      access_inv =0 where    access_inv  IS NULL;
-
-add a new variable:
-
-ALTER TABLE analyst.benin_latest_feb
-ALTER COLUMN      connect  TYPE double precision USING     connect ::double precision
---/////////////////////////////////////////////////////
-UPDATE analyst.benin_latest_feb SET      connect =0 where    connect is null;
---/////////////////////////////////////////////////////
-select connect from analyst.benin_latest_feb order by connect asc
---/////////////////////////////////////////////////////
-CREATE TABLE analyst.grid_benin_energy_latest_feb23 AS
-SELECT analyst.grid_benin_energy_latest.*, analyst.benin_latest_feb.connect
-FROM analyst.grid_benin_energy_latest
-JOIN analyst.benin_latest_feb
-ON analyst.grid_benin_energy_latest.id = analyst.grid_benin_energy_latest.id;
 UPDATE analyst.grid_benin_energy_latest SET      distance_inv =0 where    distance_inv  IS NULL;
