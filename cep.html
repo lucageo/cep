@@ -41,7 +41,7 @@
 
     <div id="modal-edu_no_e" class="modal">
     <div class="modal-content">
-    <h4>Educational facilities without electricity</h4> <br>
+    <h4>Educational facilities without electicity</h4> <br>
     <b>ABSTRACT</b>
     <p>Education is widely recognized as one of the most essential components for poverty reduction. Education infrastructure in Sub-Saharan Africa is one of the social sectors with less access to electricity, only 35.1% of Sub-Saharan African primary schools have access to electricity and half of secondary schools in sub-Saharan Africa do not have power.  Irrespective of this evidence, there is a lack of systematic, recently updated data on which schools are with or without access to electricity and hence a limited awareness of the electrification status. Consequently, it can be difficult to prioritise the provision of reliable electricity when planning and implementing energy investments to the education sector in rural areas
     The dataset collects geolocation of schools (primary and secondary) with the current situation of access to electricity with a binary description (With electricity access WEA, Non electricity access NEA).</p>
@@ -168,6 +168,23 @@
     </p>
     </div>
     </div>
+    <div id="modal-connect" class="modal">
+      <div class="modal-content">
+      <h4>Connectivity</h4> <br>
+      <b>ABSTRACT</b>
+      <p>This dataset provides mobile (cellular) network performance metrics in zoom level 16 web Mercator tiles (approximately 610.8 meters by 610.8 meters at the equator). Download speed is collected via the Speedtest by Ookla applications for Android and iOS and averaged for each tile. Measurements are filtered to results containing GPS-quality location accuracy. Speedtest data is used today by commercial mobile network operators around the world to inform network buildout, improve global Internet quality, and increase Internet accessibility. This data can be used for rural and urban connectivity development, to help make the internet better, faster, and more accessible for everyone.</p>
+      <br><b>DATA PROVIDER</b>
+      <p>OOKLA</p>
+      <br><b>TECHNICAL BACKGROUND</b>
+      <p>Hundreds of millions of Speedtests are taken on the Ookla platform each month. In order to create a manageable dataset, we aggregate raw data into tiles. The size of a data tile is defined as a function of "zoom level" (or "z"). At z=0, the size of a tile is the size of the whole world. At z=1, the tile is split in half vertically and horizontally, creating 4 tiles that cover the globe. This tile-splitting continues as zoom level increases, causing tiles to become exponentially smaller as we zoom into a given region. By this definition, tile sizes are actually some fraction of the width/height of Earth according to Web Mercator projection (EPSG:3857). As such, tile size varies slightly depending on latitude, but tile sizes can be estimated in meters. For the purposes of these layers, a zoom level of 16 (z=16) is used for the tiling. This equates to a tile that is approximately 610.8 meters by 610.8 meters at the equator (18 arcsecond blocks). The geometry of each tile is represented in WGS 84 (EPSG:4326) in the tile field.</p>
+      <br><b>RELATED SDGs </b>
+      <p>GOAL 10, GOAL 11</p>
+      <br>
+      <br>
+      <a href="https://geospatial.jrc.ec.europa.eu/geoserver/africa_platform/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=africa_platform:gps_mobile_tiles_down&outputformat=SHAPE-ZIP" target="_blank" class="download-btn waves-effect waves-light btn-small"><i class="material-icons right">keyboard_arrow_down</i>Download</a>
+      </p>
+      </div>
+      </div>
     <div id="modal-solar" class="modal">
     <div class="modal-content">
     <h4>Longterm yearly average of global horizontal irradiation</h4> <br>
@@ -657,7 +674,7 @@
                   </form>
                   <form action="#">
                   <div class="input-field col s12">
-                  <a class='btn modal-trigger' href='#modal-edu_no_e'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-edu_no_e">clear</span> <label>Educational facilities without electricity</label><br>    
+                  <a class='btn modal-trigger' href='#modal-edu_no_e'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-edu_no_e">clear</span> <label>Educational facilities without electicity</label><br>    
                   <p class="range-field range-field-edu_no_e"><input type="range" id="edu_no_e_slider" value ="0" min="1" max="10" /> <output id="edu_no_e_value" name="edu_no_e_value">1<span></span></output></p>
                   </div>
                   </form>
@@ -731,12 +748,7 @@
                   <p class="range-field range-field-drought"><input type="range" id="drought_slider" value ="0" min="1" max="10" /> <output id="drought_value" name="drought_value">1<span></span></output></p>
                   </div>
                   </form>
-                  <form action="#">
-                  <div class="input-field col s12">
-                  <a class='btn modal-trigger' href='#modal-waterp'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-waterp">clear</span> <label>Water presence</label><br>    
-                  <p class="range-field range-field-waterp"><input type="range" id="waterp_slider" value ="0" min="1" max="10" /> <output id="waterp_value" name="waterp_value">1<span></span></output></p>
-                  </div>
-                  </form>
+      
                 </span></div>
                 </li>
               </ul>
@@ -762,6 +774,12 @@
                     <div class="input-field col s12">
                       <a class='btn modal-trigger' href='#modal-refugee'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-refugee">clear</span> <label>Refugee camps</label><br>    
                       <p class="range-field range-field-refugee"><input type="range" id="refugee_slider" value ="0" min="1" max="10" /> <output id="refugee_value" name="refugee_value">1<span></span></output></p>
+                    </div>
+                  </form>   
+                  <form action="#">
+                    <div class="input-field col s12">
+                      <a class='btn modal-trigger' href='#modal-connect'><span class='material-icons'>info</span></a><span class="material-icons delvarico delvarico-connect">clear</span> <label>Connectivity</label><br>    
+                      <p class="range-field range-field-connect"><input type="range" id="connect_slider" value ="0" min="1" max="10" /> <output id="connect_value" name="connect_value">1<span></span></output></p>
                     </div>
                   </form>   
                 </span></div>
@@ -805,10 +823,11 @@
       </li>
       <li>
         <div class="collapsible-header"><i class="material-icons">eco</i>What makes this area special </div>
-        <div class="collapsible-body"><span><div id='polygon_out_main_2'></span></div>
+        <div class="collapsible-body"><span><div id='polygon_out_main_2'></div></span></div>
       </li>
     </ul>
-
+    <div class='download_stats'></div>
+    <div class='download_map'><a id="download_map" href="" download="map_scenario.png">Download map</a></div>
     <!-- <div class='calculation-box_title_2'></div>
     <div id='polygon_out_main_2'></div>
     <div class='calculation-box_title'></div>
