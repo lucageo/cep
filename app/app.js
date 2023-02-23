@@ -379,6 +379,27 @@ var miolayer = map.getLayer('point');
     }, 'grid_points_3');
 
 
+    map.addLayer({
+      "id": "point_selecte_by_treshold",
+      "type": "circle",
+      "source": {
+          "type": "vector",
+          "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=dopa_analyst:grid_benin_energy_latest_feb2&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
+          },
+      "source-layer": "grid_benin_energy_latest_feb2",
+      'paint': {
+        // make circles larger as the user zooms from z12 to z22
+        'circle-radius': {
+          'base': 1,
+          'stops': [[1, 4], [7, 16]]
+        },
+      'circle-color': '#3bb2d0',
+
+       'circle-opacity': 0.4
+    },"filter":["in", "adm0_code", ""]
+
+  }, 'grid_points_3');
+
 
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
@@ -1769,7 +1790,13 @@ setTimeout(function(){
       $('#custom_map_tools').empty().append("<div id = 'dddd'><div id ='btn_maps'>"+ 
         "<button type='button' class='btn btn-primary draw_rec_custom'><i class='far fa-square'></i></button>"+ 
         "<button type='button' class='btn btn-primary draw_custom'><i class='fas fa-draw-polygon'></i></button>"+ 
-        "<button type='button' class='btn btn-secondary clean_custom'><i class='fas fa-trash-alt'></i></button>");
+        "<button type='button' class='btn btn-secondary clean_custom'><i class='fas fa-trash-alt'></i></button>"+
+        "<form action='#'><div class='input-field col s12'>"+
+        "<br><hr  style=' border-color: #000000!important;'><br><p calss='rank-text' style='color:white;font-size:13px; text-align: center;  margin-top: -23px;'>Select top-ranking areas</p>"+
+        "<p class='range-field range-field-treshold'><input type='range' id='treshold_slider' value ='0' min='0' max='30' /> <output id='treshold_value' style='color:#adc0c700!important;'> name='treshold_value'>0<span> %</span></output></p>"+
+        "<div id='planningarea' style='color: #b5b8b9; font-size: 20px; LINE-HEIGHT: 32PX;     font-family: 'Montserrat';'></div>"+
+        "</div>"+
+      "</form>");
         
         $('#submit').text("Compute scores for "+country_name)
 
@@ -1873,6 +1900,18 @@ setTimeout(function(){
     }
 });
 
+$('.delvarico-treshold').click(function() {
+  var resetval = $("#treshold_value").html();
+  if(resetval== 0){
+  $("#treshold_value").html(0);
+  $('#treshold_slider').val(0);
+  $('.delvarico-treshold').html("clear");
+  $('.range-field-treshold').css('opacity', '1');
+  }else{
+  $("#treshold_value").html(0);
+  $('.delvarico-treshold').html("add");
+  $('.range-field-treshold').css('opacity', '0');
+  }});
 
 $('.delvarico-distance').click(function() {
   var resetval = $("#distance_value").html();
@@ -2459,6 +2498,14 @@ var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', text: getRandomProp
   $("#map").busyLoad("show", gianni);
 
 
+  $("#treshold_value").html(0);
+  $('#treshold_slider').val(0);
+  $('.delvarico-treshold').html("clear");
+  $('.range-field-treshold').css('opacity', '1');
+  
+  map.setFilter('point_selecte_by_drow', ['==', 'fid', "" ]);
+  map.setFilter('point_selecte_by_treshold', ['==', 'fid', "" ]);
+
   var queryString = window.location.search;
   var urlParams = new URLSearchParams(queryString);
   var country_iso3 = urlParams.get('iso3')
@@ -2472,6 +2519,8 @@ var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', text: getRandomProp
               var x3 = d.features[0].properties.bbox[2];
               var x4 = d.features[0].properties.bbox[3];
               map.fitBounds([[x3,x4],[x1,x2]])
+              console.log([[x3,x4],[x1,x2]])  
+            
         },
     });
 
@@ -2680,6 +2729,161 @@ var gianni = { fontawesome: 'fa fa-cog fa-spin fa-3x fa-fw', text: getRandomProp
         "<div style='color: #dadada; font-size: 12px; float: right!important;'>"+max_val.toFixed(2)+"</div>"+
         "<div class='LegendGradient' style='background-image: -webkit-linear-gradient(left,#ff0000 -25%,#E2EB16 50%,#12EB5D 75%)!important; clear: both;'></div>"+
         "</div>");
+
+
+
+
+        const features =  map.queryRenderedFeatures({layers: ['grid_points_3']});
+        var cid = features.map(f => f.properties.adm0_code);
+        var irrigation = features.map(f => f.properties.irrigation);
+        var groundw = features.map(f => f.properties.groundw);
+        var access = features.map(f => f.properties.access);
+        var access_inv = features.map(f => f.properties.access_inv);
+        var lives = features.map(f => f.properties.lives);
+        var tempano = features.map(f => f.properties.tempano);
+        var solar = features.map(f => f.properties.solar);
+        var slope = features.map(f => f.properties.slope);
+        var powerplant = features.map(f => f.properties.powerplant);
+        var popdens = features.map(f => f.properties.popdens);
+        var pca = features.map(f => f.properties.pca);
+        var natarea = features.map(f => f.properties.natarea);
+        var intactf = features.map(f => f.properties.intactf);
+        var industrial = features.map(f => f.properties.industrial);
+        var drought = features.map(f => f.properties.drought);
+        var health = features.map(f => f.properties.health);
+        var grid = features.map(f => f.properties.grid);
+        var elevation = features.map(f => f.properties.elevation);
+        var education = features.map(f => f.properties.education);
+        var edu_no_e = features.map(f => f.properties.edu_no_e);
+        var distance = features.map(f => f.properties.distance);
+        var distance_inv = features.map(f => f.properties.distance_inv);
+        var conflict = features.map(f => f.properties.conflict);
+        var wind = features.map(f => f.properties.wind);
+        var hydro = features.map(f => f.properties.hydro);
+        var connect = features.map(f => f.properties.connect);
+
+        var sum = irrigation.map(function (num, idx) {
+          return num*parseInt(score_irrigation) + 
+          groundw[idx]*parseInt(score_groundw)+ 
+          access[idx]*parseInt(score_access)+ 
+          access_inv[idx]*parseInt(score_access_inv)+ 
+          lives[idx]*parseInt(score_lives)+ 
+          tempano[idx]*parseInt(score_tempano)+
+          solar[idx]*parseInt(score_solar)+ 
+          slope[idx]*parseInt(score_slope)+
+          powerplant[idx]*parseInt(score_powerplant)+ 
+          popdens[idx]*parseInt(score_popdens)+ 
+          pca[idx]*parseInt(score_pca)+ 
+          natarea[idx]*parseInt(score_natarea)+ 
+          intactf[idx]*parseInt(score_intactf)+
+          industrial[idx]*parseInt(score_industrial)+ 
+          drought[idx]*parseInt(score_drought)+
+          health[idx]*parseInt(score_health)+ 
+          grid[idx]*parseInt(score_grid)+
+          elevation[idx]*parseInt(score_elevation)+ 
+          education[idx]*parseInt(score_education)+
+          edu_no_e[idx]*parseInt(score_edu_no_e)+
+          distance[idx]*parseInt(score_distance)+ 
+          distance_inv[idx]*parseInt(score_distance_inv)+
+          conflict[idx]*parseInt(score_conflict)+
+          wind[idx]*parseInt(score_wind)+
+          hydro[idx]*parseInt(score_hydro)+ 
+          connect[idx]*parseInt(score_connect)
+        });
+
+
+        const totalNum =  map.queryRenderedFeatures({layers: ['grid_points_3']}).length;
+
+ 
+        function getPercent(arr,perc) {
+          return arr.sort((a,b) => b-a).slice(0, parseInt(Math.ceil(arr.length * perc / 100)));
+        }
+      const arr = sum
+      console.log(groundw)
+      $("#treshold_slider").on("input", function() {
+
+
+
+        var score_treshold = this.value;
+        $("#treshold_value").html(score_treshold);
+       
+     
+      var treshold = (Math.min(...getPercent(arr,score_treshold)));
+      console.log(treshold)
+
+      var filter_points_2 = ['all'
+      ,
+      [">",
+      ["+", 
+      [ "*", ['get', 'irrigation'],  parseInt(score_irrigation)],
+      [ "*", ['get', 'groundw'],  parseInt(score_groundw)],
+      [ "*", ['get', 'access'],  parseInt(score_access)],
+      [ "*", ['get', 'access_inv'],  parseInt(score_access_inv)],
+      [ "*", ['get', 'lives'],  parseInt(score_lives)],
+      [ "*", ['get', 'tempano'],  parseInt(score_tempano)],
+      [ "*", ['get', 'solar'],  parseInt(score_solar)],
+      [ "*", ['get', 'slope'],  parseInt(score_slope)],
+      [ "*", ['get', 'powerplant'],  parseInt(score_powerplant)],
+      [ "*", ['get', 'popdens'],  parseInt(score_popdens)],
+      [ "*", ['get', 'pca'],  parseInt(score_pca)],
+      [ "*", ['get', 'natarea'],  parseInt(score_natarea)],
+      [ "*", ['get', 'intactf'],  parseInt(score_intactf)],
+      [ "*", ['get', 'industrial'],  parseInt(score_industrial)],
+      [ "*", ['get', 'drought'],  parseInt(score_drought)],
+      [ "*", ['get', 'health'],  parseInt(score_health)],
+      [ "*", ['get', 'grid'],  parseInt(score_grid)],
+      [ "*", ['get', 'elevation'],  parseInt(score_elevation)],
+      [ "*", ['get', 'education'],  parseInt(score_education)],
+      [ "*", ['get', 'edu_no_e'],  parseInt(score_edu_no_e)],
+      [ "*", ['get', 'distance'],  parseInt(score_distance)],
+      [ "*", ['get', 'distance_inv'],  parseInt(score_distance_inv)],
+      [ "*", ['get', 'conflict'],  parseInt(score_conflict)],
+      [ "*", ['get', 'wind'],  parseInt(score_wind)],
+      [ "*", ['get', 'hydro'],  parseInt(score_hydro)],
+      [ "*", ['get', 'connect'],  parseInt(score_connect)]
+      ],parseFloat(treshold)
+      
+      ],["==", ["get", "adm0_code"], cid[0]]
+
+    
+    ];
+
+
+
+        map.setFilter('point_selecte_by_treshold', filter_points_2);
+
+
+        setTimeout(function(){
+
+          var resetval = $("#treshold_value").html();
+
+          if(resetval== 0){
+          $("#planningarea").hide();
+
+          }else{
+            
+            $("#planningarea").show();
+            $("#planningarea").html("<br><div id='planningarea' style='color: #b5b8b9; font-size: 20px; LINE-HEIGHT: 32PX;     font-family: 'Montserrat;'>"+ 
+            "The area to be priositised according to your settings is equal to <span style='color: #5eaabd; font-weight:bold'> "+(score_treshold).toLocaleString()+"%</span> of the country's total area."
+            );
+
+          }
+      },1000);
+
+
+
+      
+
+      });
+
+
+
+
+
+
+
+
+
 
       }
 
