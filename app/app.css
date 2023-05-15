@@ -329,10 +329,10 @@ input[type=range]::-webkit-slider-runnable-track {
       margin-bottom: -23px;
     }
     #polygon_out_main_2 {
-      color: #ffffff;
-      height: 300px;
-      margin-top: 1px;
-      background-color: #2d3647;
+    color: #000000;
+    height: 300px;
+    margin-top: 1px;
+    background-color: #ffffff;
     }
     .hide_text {
         color: #a8a8a8!important;
