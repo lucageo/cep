@@ -3383,9 +3383,18 @@ const refinedData = []
 
 refinedData.push(titleKeys)
 
-ourData.forEach(item => {
-  refinedData.push(Object.values(item))  
-})
+var ChartNames = [];
+var ChartVals = [];
+
+for (var i = 0; i < ourData.length; i++) {
+  if (ourData[i].Result >0){
+    console.log(ourData[i].Variable);
+    ChartNames.push(ourData[i].Variable);
+    ChartVals.push(ourData[i].Result);
+  }
+}
+
+
 
 
 let csvContent = ''
@@ -3410,6 +3419,9 @@ $('#download_map').click(function() {
 })
 
 
+
+
+
   $('#polygon_out_main_area').empty().append('<p>'+(Math.round(DrewAreaArray[0]*100)/100).toLocaleString()+'</em> km<sup>2</sup></p>')
  
   setTimeout(function(){
@@ -3422,13 +3434,13 @@ $('#download_map').click(function() {
     legend: {
       itemStyle: {
          fontSize:'12px',
-         color: '#A0A0A0'
+         color: '#fff'
       },
       itemHoverStyle: {
          color: '#FFF'
       },
       itemHiddenStyle: {
-         color: '#444'
+         color: '#fff'
       }
    
 },
@@ -3436,36 +3448,13 @@ $('#download_map').click(function() {
       text: null
       },
     xAxis: {
-        categories: [
-      'Area equipped for irrigation',
-      'Groundwater Irrigation',
-      'Most accessible Areas',
-      'Least accessible Areas',
-      'Livestock',
-      'Temperature Anomalies',
-      'Solar potential',
-      'Slope',
-      'Power plants',
-      'Population',
-      'Protected and Conserved Areas',
-      'Natural Areas',
-      'Intact Forest',
-      'Industrial Areas',
-      'Drought Risk',
-      'Health centers',
-      'electricity grid',
-      'Elevation',
-      'Educational facilities',
-      'Educational facilities without electricity',
-      'Close to the existing grid',
-      'Far from the existing grid',
-      'Armed conflicts',
-      'Wind potential',
-      'Hydropower potential',
-      'Connectivity'
-          
-        ],
-        crosshair: true
+        categories: ChartNames,
+        crosshair: true,
+        labels: {
+          style: {
+              color: 'white'
+          }
+      }   
     },
     yAxis: {
         min: 0,
@@ -3485,17 +3474,16 @@ $('#download_map').click(function() {
     plotOptions: {
 
     },
-    series: [{
-        name: 'Actual Score',
-        color: '#78b022',
-        data: [parseFloat((irrigationTotal)),	parseFloat((groundwTotal)),	parseFloat((accessTotal)),parseFloat((access_invTotal)),	parseFloat((livesTotal)),	parseFloat((tempanoTotal)),	parseFloat((solarTotal)),	parseFloat((slopeTotal)),	parseFloat((powerplantTotal)),	parseFloat((popdensTotal)),	parseFloat((pcaTotal)),	parseFloat((natareaTotal)),	parseFloat((intactfTotal)),	parseFloat((industrialTotal)),	parseFloat((droughtTotal)),	parseFloat((healthTotal)),	parseFloat((gridTotal)),	parseFloat((elevationTotal)),	parseFloat((educationTotal)),	parseFloat((edu_no_eTotal)), parseFloat((distanceTotal)), parseFloat((distance_invTotal)),	parseFloat((conflictTotal)),	parseFloat((windTotal)),	parseFloat((hydroTotal)),	parseFloat((connectTotal))]
-
-    },
+    series: [
     {
         name: 'Weighted Score',
         color: '#aebaba',
-        data: [parseFloat(score_irrigation)*irrigationTotal,	parseFloat(score_groundw)*groundwTotal,	parseFloat(score_access)*accessTotal,	parseFloat(score_access_inv)*access_invTotal, parseFloat(score_lives)*livesTotal,	parseFloat(score_tempano)*tempanoTotal,	parseFloat(score_solar)*solarTotal,	parseFloat(score_slope)*slopeTotal,	parseFloat(score_powerplant)*powerplantTotal,	parseFloat(score_popdens)*popdensTotal,	parseFloat(score_pca)*pcaTotal,	parseFloat(score_natarea)*natareaTotal,	parseFloat(score_intactf)*intactfTotal,	parseFloat(score_industrial)*industrialTotal,	parseFloat(score_drought)*droughtTotal,	parseFloat(score_health)*healthTotal,	parseFloat(score_grid)*gridTotal,	parseFloat(score_elevation)*elevationTotal,	parseFloat(score_education)*educationTotal,	parseFloat(score_edu_no_e)*edu_no_eTotal, parseFloat(score_distance)*distanceTotal,	parseFloat(score_distance_inv)*distance_invTotal,parseFloat(score_conflict)*conflictTotal,	parseFloat(score_wind)*windTotal ,	parseFloat(score_hydro)*hydroTotal,	parseFloat(score_connect)*connectTotal]
-
+        data: ChartVals,
+        dataLabels: {
+          style: {
+            color: 'white'
+          }
+        }
     }]
 
 
@@ -3509,6 +3497,19 @@ Highcharts.chart('polygon_out_main_2', {
         backgroundColor: 'transparent',
         marginTop: 10
     },
+    legend: {
+      itemStyle: {
+         fontSize:'12px',
+         color: '#fff'
+      },
+      itemHoverStyle: {
+         color: '#FFF'
+      },
+      itemHiddenStyle: {
+         color: '#fff'
+      }
+   
+},
 
     plotOptions: {
             series: {
@@ -3554,7 +3555,12 @@ Highcharts.chart('polygon_out_main_2', {
           'Connectivity'
         ],
         tickmarkPlacement: 'on',
-        lineWidth: 0
+        lineWidth: 0,
+        labels: {
+          style: {
+              color: 'white'
+          }
+      }   
 
     },
 
@@ -3580,7 +3586,14 @@ Highcharts.chart('polygon_out_main_2', {
           color: '#ffffff'
        }
     },
-    series: [{
+    series: [
+      {
+        name: 'Weighted Score',
+        color: '#dea314',
+        data: [parseFloat(score_irrigation)*irrigationTotal,	parseFloat(score_groundw)*groundwTotal,	parseFloat(score_access)*accessTotal,	parseFloat(score_access_inv)*access_invTotal, parseFloat(score_lives)*livesTotal,	parseFloat(score_tempano)*tempanoTotal,	parseFloat(score_solar)*solarTotal,	parseFloat(score_slope)*slopeTotal,	parseFloat(score_powerplant)*powerplantTotal,	parseFloat(score_popdens)*popdensTotal,	parseFloat(score_pca)*pcaTotal,	parseFloat(score_natarea)*natareaTotal,	parseFloat(score_intactf)*intactfTotal,	parseFloat(score_industrial)*industrialTotal,	parseFloat(score_drought)*droughtTotal,	parseFloat(score_health)*healthTotal,	parseFloat(score_grid)*gridTotal,	parseFloat(score_elevation)*elevationTotal,	parseFloat(score_education)*educationTotal,	parseFloat(score_edu_no_e)*edu_no_eTotal, parseFloat(score_distance)*distanceTotal,	parseFloat(score_distance_inv)*distance_invTotal,parseFloat(score_conflict)*conflictTotal,	parseFloat(score_wind)*windTotal, parseFloat(score_hydro)*hydroTotal, parseFloat(score_connect)*connectTotal],
+        
+    },      
+ {
       marker: {
       enabled: false,
     },
@@ -3589,12 +3602,6 @@ Highcharts.chart('polygon_out_main_2', {
     type:'line',
     data: [parseFloat((irrigationTotal)),	parseFloat((groundwTotal)),	parseFloat((accessTotal)),parseFloat((access_invTotal)),	parseFloat((livesTotal)),	parseFloat((tempanoTotal)),	parseFloat((solarTotal)),	parseFloat((slopeTotal)),	parseFloat((powerplantTotal)),	parseFloat((popdensTotal)),	parseFloat((pcaTotal)),	parseFloat((natareaTotal)),	parseFloat((intactfTotal)),	parseFloat((industrialTotal)),	parseFloat((droughtTotal)),	parseFloat((healthTotal)),	parseFloat((gridTotal)),	parseFloat((elevationTotal)),	parseFloat((educationTotal)),	parseFloat((edu_no_eTotal)), parseFloat((distanceTotal)), parseFloat((distance_invTotal)),	parseFloat((conflictTotal)),	parseFloat((windTotal)),	parseFloat((hydroTotal)),	parseFloat((connectTotal))]
 
-},
-{
-    name: 'Weighted Score',
-    color: '#dea314',
-    data: [parseFloat(score_irrigation)*irrigationTotal,	parseFloat(score_groundw)*groundwTotal,	parseFloat(score_access)*accessTotal,	parseFloat(score_access_inv)*access_invTotal, parseFloat(score_lives)*livesTotal,	parseFloat(score_tempano)*tempanoTotal,	parseFloat(score_solar)*solarTotal,	parseFloat(score_slope)*slopeTotal,	parseFloat(score_powerplant)*powerplantTotal,	parseFloat(score_popdens)*popdensTotal,	parseFloat(score_pca)*pcaTotal,	parseFloat(score_natarea)*natareaTotal,	parseFloat(score_intactf)*intactfTotal,	parseFloat(score_industrial)*industrialTotal,	parseFloat(score_drought)*droughtTotal,	parseFloat(score_health)*healthTotal,	parseFloat(score_grid)*gridTotal,	parseFloat(score_elevation)*elevationTotal,	parseFloat(score_education)*educationTotal,	parseFloat(score_edu_no_e)*edu_no_eTotal, parseFloat(score_distance)*distanceTotal,	parseFloat(score_distance_inv)*distance_invTotal,parseFloat(score_conflict)*conflictTotal,	parseFloat(score_wind)*windTotal, parseFloat(score_hydro)*hydroTotal, parseFloat(score_connect)*connectTotal],
-    
 }],
     responsive: {
         rules: [{
